@@ -1,0 +1,140 @@
+# Version Control
+.git/
+.gitignore
+
+# Environment and Configuration
+.env
+.env.*
+env/
+.venv
+venv/
+.tox/
+.Python
+.Renviron
+.Rprofile
+ENV/
+.installed.cfg
+
+# Python Specific
+__pycache__/
+*.py[cod]     # Catches all variations of .pyc, .pyo, and .pyd
+pip-log.txt
+pip-delete-this-directory.txt
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+*.egg
+MANIFEST
+
+# R Specific
+.Rhistory
+.Rapp.history
+.RData
+.RDataTmp
+.Ruserdata
+*-Ex.R
+/*.Rcheck/
+.Rproj.user/
+*.Rproj
+.httr-oauth
+*_cache/
+/cache/
+
+# Quarto Specific
+/.quarto/
+*_files/
+/_site/
+/_freeze/
+/_extensions/
+/_book/
+/_output/
+.quartohistory
+
+# Test and Coverage
+.coverage
+.coverage.*
+nosetests.xml
+coverage.xml
+*.cover
+.pytest_cache/
+rcov/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Logs and Cache
+.cache
+*.log
+logs/
+
+# Data and Local Storage
+data/
+references/
+output/
+
+# Output and Temporary Files
+*.fasta
+*.fasta.gz
+*.fa
+*.fa.gz
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+*.tmp
+*.temp
+tmp.*
+*~
+/*.tar.gz
+/*.html
+/*.sra
+*.sra
+output/*
+
+# R Markdown and Notebooks
+*.nb.html
+*_cache/
+/cache/
+*.knit.md
+*.utf8.md
+.ipynb_checkpoints
+
+# System Files
+.DS_Store
+.DS_Store?
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Development Tools and IDE
+.idea/
+.vscode/
+*.sublime-workspace
+*.swp
+*.swo
+.rstudio/
+
+# Package Management
+renv/
+renv.lock
+.renvignore
+packrat/
+poetry.lock
+pyproject.toml
+requirements.txt.lock
+Pipfile.lock
+
+# Other
+.ncbi
+*_backup*
