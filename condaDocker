@@ -1,0 +1,52 @@
+FROM continuumio/miniconda3:24.9.2-0
+
+# Set maintainer label
+LABEL maintainer="Nathaniel Cole <nc564@cornell.edu>"
+LABEL version="1.0"
+LABEL description="Docker image for creating a conda images with specified environment"
+
+# Set working directory
+#WORKDIR /app
+
+ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
+ENV PATH=/opt/conda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+RUN apt-get update -q
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/*
+
+# Copy environment files
+COPY environment.yml .
+COPY requirements.txt .
+
+# Create conda environment and clean up
+RUN conda env create -f environment.yml
+RUN conda clean -afy && \
+    find /opt/conda/ -type f,l -name '*.a' -delete && \
+    find /opt/conda/ -type f,l -name '*.pyc' -delete && \
+    find /opt/conda/ -type f,l -name '*.js.map' -delete
+
+# Make RUN commands use the conda environment
+SHELL ["conda", "run", "-n", "ENV", "/bin/bash", "-c"]
+
+# Copy the external scripts and make it executable
+COPY src/* /usr/local/bin/
+RUN chmod +x /usr/local/bin/*
+
+# Create necessary directories
+RUN mkdir -p /data/references /data/output
+
+# Set up entrypoint script
+RUN echo '#!/bin/bash\n\
+source activate ENV\n\
+exec "$@"' > /usr/local/bin/entrypoint.sh \
+    && chmod +x /usr/local/bin/entrypoint.sh
+
+# Set the entrypoint
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
+# Set default command
+CMD ["ENV", "--help"]
+
+# Add volume for data
+VOLUME ["/data"]
