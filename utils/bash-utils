@@ -37,6 +37,7 @@ fi
 : "${THREADS:=16}"
 : "${COMPRESS_LEVEL:=5}"
 : "${LOG_FILE:=}"
+: "${TMP:=TMP=$(mktemp -d -p ./)}"
 
 # Color codes for output
 RED='\033[0;31m'
