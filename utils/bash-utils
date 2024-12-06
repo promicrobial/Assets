@@ -171,6 +171,7 @@ parse_arguments() {
     fi
     
     # Validate config file
+    # TODO
     parse_config_file
         
     # Log settings if in debug mode
