@@ -177,14 +177,14 @@ parse_arguments() {
         
     # Log settings if in debug mode
     if [[ "$DEBUG" == "true" ]]; then
-        debug "Settings:"
-        debug "  Input GFA: $INPUT_GFA"
-        debug "  Config file: $CONFIG_FILE"
-        debug "  Output directory: $OUTPUT_DIR"
-        debug "  Output filename: $OUTPUT_FILENAME"
-        debug "  Threads: $THREADS"
-        debug "  Keep temp files: $KEEP_TEMP"
-        debug "  Dry run: $DRY_RUN"
+        log_debug "Settings:"
+        log_debug "  Input GFA: $INPUT_GFA"
+        log_debug "  Config file: $CONFIG_FILE"
+        log_debug "  Output directory: $OUTPUT_DIR"
+        log_debug "  Output filename: $OUTPUT_FILENAME"
+        log_debug "  Threads: $THREADS"
+        log_debug "  Keep temp files: $KEEP_TEMP"
+        log_debug "  Dry run: $DRY_RUN"
     fi
 }
 
@@ -244,11 +244,11 @@ execute() {
         return 0
     else
         # Log the command in debug mode
-        debug "Executing: $*"
+        log_debug "Executing: $*"
         # Actually run the command
         if ! "$@"; then
             # If command fails, log error and return failure
-            error "Command failed: $*"
+            log_error "Command failed: $*"
             return 1
         fi
     fi
@@ -267,7 +267,7 @@ verify_dependencies() {
     local missing_deps=0
     local deps=("$@")
     
-    info "Checking dependencies..."
+    log_info "Checking dependencies..."
     
     for dep in "${deps[@]}"; do
         if ! command -v "$dep" >/dev/null 2>&1; then
@@ -281,7 +281,7 @@ verify_dependencies() {
         return 1
     fi
     
-    info "All dependencies are satisfied."
+    log_info "All dependencies are satisfied."
     return 0
 }
 
@@ -297,10 +297,10 @@ verify_dependencies() {
 create_directory() {
     local dir=$1
     if [[ ! -d "$dir" ]]; then
-        debug "Creating directory: $dir"
+        log_debug "Creating directory: $dir"
         execute mkdir -p "$dir"
     else
-        debug "Directory already exists: $dir"
+        log_debug "Directory already exists: $dir"
     fi
 }
 
@@ -315,7 +315,7 @@ cleanup() {
                 log_info "Cleaning up intermediate files - $target"
         execute rm -rf "$target"
     else
-        debug "Keeping temporary files: $target"
+        log_debug "Keeping temporary files: $target"
     fi
 }
 
@@ -356,7 +356,7 @@ setup_lock() {
             exit 1
         else
             # Stale lock file from crashed process
-            warn "Removing stale lock file from PID $pid"
+            log_warn "Removing stale lock file from PID $pid"
             rm -f "$lock_file"
         fi
     fi
@@ -387,7 +387,7 @@ parse_config_file() {
         return 1
     fi
     
-    debug "Parsing configuration file: $config_file"
+    log_debug "Parsing configuration file: $config_file"
     
     # Source the config file
     source "$config_file"
@@ -396,7 +396,7 @@ parse_config_file() {
     local missing_vars=0
     for var in "${required_vars[@]}"; do
         if [[ -z "${!var+x}" ]]; then
-            error "Required variable not set in config: $var"
+            log_error "Required variable not set in config: $var"
             missing_vars=1
         fi
     done
@@ -440,7 +440,7 @@ validate_integer() {
     local name=$2
     
     if ! [[ "$value" =~ ^[0-9]+$ ]] || [ "$value" -lt 1 ]; then
-        error "$name must be a positive integer"
+        log_error "$name must be a positive integer"
         return 1
     fi
     return 0
@@ -458,7 +458,7 @@ validate_float() {
     
     if ! [[ "$value" =~ ^[0-9]*\.?[0-9]+$ ]] || 
        [ $(echo "$value < 0 || $value > 1" | bc) -eq 1 ]; then
-        error "$name must be a float between 0 and 1"
+        log_error "$name must be a float between 0 and 1"
         return 1
     fi
     return 0
