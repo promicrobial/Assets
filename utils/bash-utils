@@ -209,7 +209,7 @@ log() {
         "INFO") local color="${GREEN}" ;;  # Green
         "WARN") local color="${YELLOW}" ;;  # Yellow
         "ERROR") local color="${RED}" ;; # Red
-        "DEBUG") local color="${CYAN}" ;; # Cyan
+        "DEBUG") local color="${BLUE}" ;; # Blue
         *) local color="${NC}" ;;         # Default
     esac
     local reset="${NC}"
