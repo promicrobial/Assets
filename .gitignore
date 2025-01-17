@@ -5,15 +5,14 @@
 # Environment and Configuration
 .env
 .env.*
-env/
 .venv
 venv/
 .tox/
 .Python
 .Renviron
 .Rprofile
-ENV/
 .installed.cfg
+*.local
 
 # Python Specific
 __pycache__/
