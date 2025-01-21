@@ -51,141 +51,181 @@ NC='\033[0m' # No Color
 ################################################################################
 
 # Function: parse_arguments
-# Description: Parse command line arguments
-# Arguments: any required arguments e.g. input
-# Usage: parse_arguments "input" "config" "output"
+# Description: Parses command line arguments and validates required parameters
+# Arguments: Command line arguments ($@)
+# Sets global variables based on parsed arguments
+# Usage: parse_arguments "$@"
 parse_arguments() {
-    #local required_vars=(${1:-})
-    local required_vars=("$@")
-
-    # Initialize variables with default values
+    # Initialize local variables
+    local print_help=false
+    local print_version=false
+    
+    # Initialize default values
     INPUT=""
-    CONFIG_FILE="default.conf"
+    CONFIG_FILE=""
     OUTPUT_DIR="./output"
+    OUTPUT_FILENAME="sieved-pangenome.fa"
+    LOG_FILE=""
+    THREADS=16
     VERBOSE=false
     DEBUG=false
     KEEP_TEMP=false
-    THREADS=16
-    LOG_FILE="./output/$(date +%Y%m%d_%H%M).log"
-    OUTPUT_FILENAME="./output/$(date +%Y%m%d_%H%M).out"
+    DRY_RUN=false
 
     # If no arguments provided, show usage
     if [[ $# -eq 0 ]]; then
-        usage
+        help
+        exit 1
     fi
 
+    # Parse command line options
     while [[ $# -gt 0 ]]; do
         case $1 in
             -h|--help)
-                usage
+                help
                 exit 0
                 ;;
             -V|--version)
-                echo "$NAME version $VERSION"
+                version
                 exit 0
                 ;;
             -i|--input)
-            if [[ -z "$2" || "$2" =~ ^- ]]; then
-                log_error "Input file required for $1"
-                usage
-            fi
-            INPUT="$2"
-            shift 2
-            ;;
-        -c|--config)
-            if [[ -z "$2" || "$2" =~ ^- ]]; then
-                log_error "Config file required for $1"
-                usage
-            fi
-            CONFIG_FILE="$2"
-            shift 2
-            ;;
-        -o|--output)
-            if [[ -z "$2" || "$2" =~ ^- ]]; then
-                log_error "Output directory required for $1"
-                usage
-            fi
-            OUTPUT_DIR="$2"
-            shift 2
-            ;;
+                if [[ -z "$2" || "$2" =~ ^- ]]; then
+                    log_error "Input file required for $1"
+                    exit 1
+                fi
+                INPUT="$2"
+                shift 2
+                ;;
+            -c|--config)
+                if [[ -z "$2" || "$2" =~ ^- ]]; then
+                    log_error "Config file required for $1"
+                    exit 1
+                fi
+                CONFIG_FILE="$2"
+                shift 2
+                ;;
+            -o|--output)
+                if [[ -z "$2" || "$2" =~ ^- ]]; then
+                    log_error "Output directory required for $1"
+                    exit 1
+                fi
+                OUTPUT_DIR="$2"
+                shift 2
+                ;;
+            -l|--log)
+                if [[ -z "$2" || "$2" =~ ^- ]]; then
+                    log_error "Log file path required for $1"
+                    exit 1
+                fi
+                LOG_FILE="$2"
+                shift 2
+                ;;
+            -t|--threads)
+                if [[ -z "$2" || "$2" =~ ^- ]]; then
+                    log_error "Number of threads required for $1"
+                    exit 1
+                fi
+                THREADS="$2"
+                shift 2
+                ;;
             -v|--verbose)
-                VERBOSE=false
+                VERBOSE=true
                 shift
                 ;;
             -d|--debug)
-                DEBUG=false
+                DEBUG=true
                 shift
                 ;;
             -k|--keep-temp)
                 KEEP_TEMP=true
                 shift
                 ;;
-            -t|--threads)
-                THREADS=16
+            --dry-run)
+                DRY_RUN=true
                 shift
                 ;;
-            -l|--log)
-                LOG_FILE="$2"
-                shift 2
-                ;;
-            -*|--*)
-                log_error "Unknown option $1"
-                usage
+            *)
+                log_error "Unknown option: $1"
+                help
                 exit 1
                 ;;
         esac
     done
 
-    # validate required arguments
-    for arg in "${required_VARs[@]}"; do
-            case $arg in
-                "input")
-                    if [[ -z "$INPUT" ]]; then
-                        log_error "Required argument missing: -i/--input"
-                        usage
-                    fi
-                    ;;
-                "config")
-                    if [[ -z "$CONFIG_FILE" ]]; then
-                        log_error "Required argument missing: -c/--config"
-                        usage
-                    fi
-                    ;;
-                "output")
-                    if [[ -z "$OUTPUT_DIR" ]]; then
-                        log_error "Required argument missing: -o/--output"
-                        usage
-                    fi
-                    ;;
-                *)
-                    log_error "Unknown required argument type: $arg"
-                    exit 1
-                    ;;
-            esac
-        done
-    
-
-    # Validate input file
-    if [[ ! -f "$INPUT" ]]; then
-        log_error "Input file not found: $INPUT"
+    # Validate required arguments
+    if [[ -z "$INPUT" ]]; then
+        log_error "Required argument missing: -i/--input"
+        help
         exit 1
     fi
-    
-    # Validate config file
-    # TODO
-    parse_config_file
-        
-    # Log settings if in debug mode
-    if [[ "$DEBUG" == "true" ]]; then
-        log_debug "Settings:"
-        log_debug "  Input GFA: $INPUT_GFA"
-        log_debug "  Config file: $CONFIG_FILE"
-        log_debug "  Output directory: $OUTPUT_DIR"
-        log_debug "  Output filename: $OUTPUT_FILENAME"
-        log_debug "  Threads: $THREADS"
-        log_debug "  Keep temp files: $KEEP_TEMP"
-        log_debug "  Dry run: $DRY_RUN"
+
+    if [[ -z "$CONFIG_FILE" ]]; then
+        log_error "Required argument missing: -c/--config"
+        help
+        exit 1
     fi
+
+    # Validate input file exists
+    if [[ ! -f "$INPUT" ]]; then
+        log_error "Input file does not exist: $INPUT"
+        exit 1
+    fi
+
+    # Validate config file exists
+    if [[ ! -f "$CONFIG_FILE" ]]; then
+        log_error "Config file does not exist: $CONFIG_FILE"
+        exit 1
+    fi
+
+    # Validate threads is a positive integer
+    if ! [[ "$THREADS" =~ ^[1-9][0-9]*$ ]]; then
+        log_error "Threads must be a positive integer"
+        exit 1
+    fi
+
+    # Create output directory if it doesn't exist
+    if [[ ! -d "$OUTPUT_DIR" ]]; then
+        if ! mkdir -p "$OUTPUT_DIR"; then
+            log_error "Failed to create output directory: $OUTPUT_DIR"
+            exit 1
+        fi
+    fi
+
+    # Set up logging if specified
+    if [[ -n "$LOG_FILE" ]]; then
+        # Create log directory if it doesn't exist
+        local log_dir
+        log_dir=$(dirname "$LOG_FILE")
+        if [[ ! -d "$log_dir" ]]; then
+            if ! mkdir -p "$log_dir"; then
+                log_error "Failed to create log directory: $log_dir"
+                exit 1
+            fi
+        fi
+        # Test if we can write to the log file
+        if ! touch "$LOG_FILE" 2>/dev/null; then
+            log_error "Cannot write to log file: $LOG_FILE"
+            exit 1
+        fi
+    fi
+
+    # Log settings if in debug mode
+    if [[ "$DEBUG" == true ]]; then
+        log_debug "Settings:"
+        log_debug "  Input: $INPUT"
+        log_debug "  Config: $CONFIG_FILE"
+        log_debug "  Output Directory: $OUTPUT_DIR"
+        log_debug "  Output Filename: $OUTPUT_FILENAME"
+        log_debug "  Log File: ${LOG_FILE:-none}"
+        log_debug "  Threads: $THREADS"
+        log_debug "  Verbose: $VERBOSE"
+        log_debug "  Debug: $DEBUG"
+        log_debug "  Keep Temp: $KEEP_TEMP"
+        log_debug "  Dry Run: $DRY_RUN"
+    fi
+
+    return 0
 }
 
 ################################################################################
