@@ -79,6 +79,7 @@ logs/
 # Data and Local Storage
 data/
 references/
+ref/
 output/
 
 # Output and Temporary Files
@@ -119,6 +120,7 @@ Thumbs.db
 # Development Tools and IDE
 .idea/
 .vscode/
+*.code-workspace
 *.sublime-workspace
 *.swp
 *.swo
