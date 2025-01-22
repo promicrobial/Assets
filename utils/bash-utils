@@ -469,6 +469,21 @@ format_duration() {
 # Validation Functions                                                        #
 ################################################################################
 
+# Function: verify_input_files
+# Description: Verify input and config files exist
+# Arguments: none
+verify_input_files() {
+    if [ ! -f "$INPUT" ]; then
+        log_error "Input file does not exist: $INPUT"
+        exit 1
+    fi
+    
+    if [ ! -f "$CONFIG_FILE" ]; then
+        log_error "Config file does not exist: $CONFIG_FILE"
+        exit 1
+    fi
+}
+
 # Function: validate_integer
 # Description: Validates that a value is a positive integer
 # Arguments:
