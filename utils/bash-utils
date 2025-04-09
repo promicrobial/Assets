@@ -15,7 +15,7 @@
 # handling, and other shared functionality.                                  #
 # Usage: source utils/bash-utils                                             #
 #                                                                            #
-# Last updated: 05-12-24                                                     #
+# Last updated: 09-04-25                                                     #
 ##############################################################################
 
 # Ensure the script is being sourced, not executed
@@ -62,10 +62,10 @@ parse_arguments() {
     
     # Initialize default values
     INPUT=""
-    CONFIG_FILE=""
+    CONFIG_FILE="default.conf"
     OUTPUT_DIR="./output"
-    OUTPUT_FILENAME="sieved-pangenome.fa"
-    LOG_FILE=""
+    LOG_FILE="./output/$(date +%Y%m%d_%H%M).log"
+    OUTPUT_FILENAME="./output/$(date +%Y%m%d_%H%M).out"
     THREADS=16
     VERBOSE=false
     DEBUG=false
@@ -470,16 +470,17 @@ format_duration() {
 ################################################################################
 
 # Function: verify_input_files
-# Description: Verify input and config files exist
+# Description: Verify input files exist
 # Arguments: none
 verify_input_files() {
-    if [ ! -f "$INPUT" ]; then
-        log_error "Input file does not exist: $INPUT"
+    if [[ -z "${INPUT:-}" ]]; then
+        log_error "Input file not specified"
+        help
         exit 1
     fi
-    
-    if [ ! -f "$CONFIG_FILE" ]; then
-        log_error "Config file does not exist: $CONFIG_FILE"
+
+    if [[ ! -f "$INPUT" ]]; then
+        log_error "Input file not found: $INPUT"
         exit 1
     fi
 }
