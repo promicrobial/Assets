@@ -6,17 +6,20 @@
 #                                     #
 #######################################
 
-##############################################################################
-# Author: Nathaniel Cole (nc564@cornell.edu)                                 #
-# Date: 05-12-24                                                             #
-# License: MIT                                                               #
-# Version: 1.0                                                               #
-# Description: A file of commonly used functions. Provides logging, error    #
-# handling, and other shared functionality.                                  #
-# Usage: source utils/bash-utils                                             #
-#                                                                            #
-# Last updated: 09-04-25                                                     #
-##############################################################################
+##########################################################################################################
+# Author: Nathaniel Cole (nc564@cornell.edu)                                                             #
+# Date: 05-12-24                                                                                         #
+# License: MIT                                                                                           #
+# Version: 1.0                                                                                           #
+# Description: A file of commonly used functions. Provides logging, error                                #
+# handling, and other shared functionality.                                                              #
+# Usage: source utils/bash-utils                                                                         #
+#                                                                                                        #
+# Download using:                                                                                        #
+#                                                                                                        #
+# wget -P ./utils https://raw.githubusercontent.com/promicrobial/Assets/refs/heads/main/utils/bash-utils #
+# Last updated: 09-04-25                                                                                 #
+##########################################################################################################
 
 # Ensure the script is being sourced, not executed
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
@@ -589,7 +592,7 @@ verify_output_directory() {
     if [[ ! -w "$dir" ]]; then
         log_error "Output directory is not writable: $dir"
         exit 1
-    }
+    fi
 
     log_debug "Output directory verification complete"
     return 0
