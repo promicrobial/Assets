@@ -278,20 +278,26 @@ log_debug() {
 #   Command and its arguments to execute
 # Usage: execute samtools sort input.bam
 execute() {
+    # Log command if in debug mode
+    if [[ "$DEBUG" == "true" ]]; then
+        log_debug "Executing: $*"
+    elif [[ "$VERBOSE" == "true" ]]; then
+        log_info "Running: $*"
+    fi
+
+    # In dry-run mode, just print the command
     if [[ "$DRY_RUN" == "true" ]]; then
-        # In dry-run mode, just print the command
         echo "Would execute: $*"
         return 0
-    else
-        # Log the command in debug mode
-        log_debug "Executing: $*"
-        # Actually run the command
-        if ! "$@"; then
-            # If command fails, log error and return failure
-            log_error "Command failed: $*"
-            return 1
-        fi
     fi
+
+    # Execute the command
+    if ! "$@"; then
+        log_error "Command failed: $*"
+        return 1
+    fi
+
+    return 0
 }
 
 ################################################################################
@@ -336,14 +342,19 @@ verify_dependencies() {
 # Usage: create_directory "/path/to/dir"
 create_directory() {
     local dir=$1
+    
     if [[ ! -d "$dir" ]]; then
         log_debug "Creating directory: $dir"
-        execute mkdir -p "$dir"
+        if ! mkdir -p "$dir"; then
+            log_error "Failed to create directory: $dir"
+            return 1
+        fi
     else
         log_debug "Directory already exists: $dir"
     fi
+    
+    return 0
 }
-
 # Function: cleanup
 # Description: Removes temporary files unless KEEP_TEMP is true
 # Arguments:
@@ -489,6 +500,42 @@ verify_input_files() {
     fi
 }
 
+verify_gfa_file() {
+    log_debug "Verifying input files"
+    
+    # Check if input file is specified
+    if [[ -z "${INPUT:-}" ]]; then
+        log_error "Input file not specified"
+        help
+        exit 1
+    fi
+
+    # Check if input file exists
+    if [[ ! -f "$INPUT" ]]; then
+        log_error "Input file not found: $INPUT"
+        exit 1
+    fi
+
+    # Check if input file is readable
+    if [[ ! -r "$INPUT" ]]; then
+        log_error "Input file is not readable: $INPUT"
+        exit 1
+    fi
+
+    # Verify file appears to be a GFA file
+    if [[ "$INPUT" != *.gfa && "$INPUT" != *.gfa.gz ]]; then
+        log_warn "Input file does not have .gfa or .gfa.gz extension: $INPUT"
+        read -p "Continue anyway? [y/N] " -n 1 -r
+        echo
+        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+            exit 1
+        fi
+    fi
+
+    log_debug "Input file verification complete"
+    return 0
+}
+
 # Function: validate_integer
 # Description: Validates that a value is a positive integer
 # Arguments:
@@ -521,6 +568,30 @@ validate_float() {
         log_error "$name must be a float between 0 and 1"
         return 1
     fi
+    return 0
+}
+
+verify_output_directory() {
+    local dir=$1
+    
+    log_debug "Verifying output directory: $dir"
+    
+    # Create output directory if it doesn't exist
+    if [[ ! -d "$dir" ]]; then
+        log_info "Creating output directory: $dir"
+        if ! mkdir -p "$dir"; then
+            log_error "Failed to create output directory: $dir"
+            exit 1
+        fi
+    fi
+
+    # Check if directory is writable
+    if [[ ! -w "$dir" ]]; then
+        log_error "Output directory is not writable: $dir"
+        exit 1
+    }
+
+    log_debug "Output directory verification complete"
     return 0
 }
 
