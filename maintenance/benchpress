@@ -139,7 +139,6 @@ run_fileio_benchmark() {
             --file-total-size=4G \
             --file-test-mode=$mode \
             --time=30 \
-            --events=0 \
             --threads=$(nproc) \
             run | grep -E "reads/s:|writes/s:|fsyncs/s:|read, MiB/s:|written, MiB/s:|min:|avg:|max:|95th percentile:"
     done
