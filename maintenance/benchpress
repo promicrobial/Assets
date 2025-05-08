@@ -113,7 +113,6 @@ run_memory_benchmark() {
         echo -e "\n${YELLOW}Testing memory $operation operations${NC}"
         sysbench memory \
             --memory-block-size=1K \
-            --memory-scope=$operation \
             --memory-total-size=100G \
             --memory-oper=$operation \
             --threads=$(nproc) \
