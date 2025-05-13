@@ -28,7 +28,7 @@
 # Usage:                                                                     #
 #   ./benchpress.sh                                                          #
 #                                                                            #
-# Last updated: 08-05-25                                                     #
+# Last updated: 13-05-25                                                     #
 ##############################################################################
 
 # Strict error handling
@@ -41,12 +41,9 @@ set -euo pipefail
 # Global Variables and Settings                                                #
 ################################################################################
 
-# Color formatting for output
-BLUE='\033[0;34m'
-GREEN='\033[0;32m'
-RED='\033[0;31m'
-YELLOW='\033[1;33m'
-NC='\033[0m' # No Color
+# Timestamp for the report
+TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+REPORT_DATE=$(date '+%Y%m%d_%H%M%S')
 
 ################################################################################
 # Functions                                                                    #
@@ -72,12 +69,12 @@ EOF
 
 # Function to print section headers
 print_header() {
-    echo -e "\n${BLUE}=== $1 ===${NC}\n"
+    echo -e "## $1\n" >> "$REPORT_FILE"
 }
 
 # Function to print results
-print_result() {
-    echo -e "${GREEN}$1:${NC} $2"
+print_subheader() {
+    echo -e "### $1\n" >> "$REPORT_FILE"
 }
 
 # Function: run_cpu_benchmark
@@ -87,15 +84,17 @@ print_result() {
 # Usage: run_cpu_benchmark
 run_cpu_benchmark() {
     print_header "CPU Benchmark"
-    echo "Running CPU performance test..."
+    echo "Running CPU performance test..." >&2
     
     # CPU test with different numbers of threads
-    for threads in 1 $(nproc) ; do
-        echo -e "\n${YELLOW}Testing with $threads thread(s)${NC}"
+for threads in 1 $(nproc); do
+        print_subheader "CPU Test with $threads thread(s)"
         sysbench cpu \
             --cpu-max-prime=20000 \
             --threads=$threads \
-            run | grep -E "total time:|events per second:|total number of events:|min:|avg:|max:|95th percentile:"
+            run | grep -E "total time:|events per second:|total number of events:|min:|avg:|max:|95th percentile:" | \
+            sed 's/^/    /' >> "$REPORT_FILE"
+        echo "" >> "$REPORT_FILE"
     done
 }
 
@@ -106,17 +105,18 @@ run_cpu_benchmark() {
 # Usage: run_memory_benchmark
 run_memory_benchmark() {
     print_header "Memory Benchmark"
-    echo "Running memory performance test..."
+    echo "Running memory performance tests..." >&2
     
-    # Memory test with different operation modes
     for operation in read write; do
-        echo -e "\n${YELLOW}Testing memory $operation operations${NC}"
+        print_subheader "Memory $operation operations"
         sysbench memory \
             --memory-block-size=1K \
             --memory-total-size=100G \
             --memory-oper=$operation \
             --threads=$(nproc) \
-            run | grep -E "Operations performed:|Total operations:|Transferred|Speed:|min:|avg:|max:|95th percentile:"
+            run | grep -E "Operations performed:|Total operations:|Transferred|Speed:|min:|avg:|max:|95th percentile:" | \
+            sed 's/^/    /' >> "$REPORT_FILE"
+        echo "" >> "$REPORT_FILE"
     done
 }
 
@@ -127,24 +127,23 @@ run_memory_benchmark() {
 # Usage: run_fileio_benchmark
 run_fileio_benchmark() {
     print_header "File I/O Benchmark"
-    echo "Running file I/O performance test..."
+    echo "Running file I/O performance tests..." >&2
     
-    # Prepare test files
-    sysbench fileio --file-total-size=4G prepare
+    sysbench fileio --file-total-size=4G prepare >&2
     
-    # Test different file I/O modes
     for mode in seqrd seqwr seqrewr rndrd rndwr rndrw; do
-        echo -e "\n${YELLOW}Testing file I/O mode: $mode${NC}"
+        print_subheader "File I/O Mode: $mode"
         sysbench fileio \
             --file-total-size=4G \
             --file-test-mode=$mode \
             --time=30 \
             --threads=$(nproc) \
-            run | grep -E "reads/s:|writes/s:|fsyncs/s:|read, MiB/s:|written, MiB/s:|min:|avg:|max:|95th percentile:"
+            run | grep -E "reads/s:|writes/s:|fsyncs/s:|read, MiB/s:|written, MiB/s:|min:|avg:|max:|95th percentile:" | \
+            sed 's/^/    /' >> "$REPORT_FILE"
+        echo "" >> "$REPORT_FILE"
     done
     
-    # Cleanup test files
-    sysbench fileio --file-total-size=4G cleanup
+    sysbench fileio --file-total-size=4G cleanup >&2
 }
 
 # Function: run_thread_benchmark
@@ -154,13 +153,15 @@ run_fileio_benchmark() {
 # Usage: run_thread_benchmark
 run_thread_benchmark() {
     print_header "Thread Benchmark"
-    echo "Running thread performance test..."
+    echo "Running thread performance tests..." >&2
     
     sysbench threads \
         --threads=$(nproc) \
         --thread-yields=1000 \
         --time=30 \
-        run | grep -E "total time:|events per second:|total number of events:|min:|avg:|max:|95th percentile:"
+        run | grep -E "total time:|events per second:|total number of events:|min:|avg:|max:|95th percentile:" | \
+        sed 's/^/    /' >> "$REPORT_FILE"
+    echo "" >> "$REPORT_FILE"
 }
 
 # Function: run_mutex_benchmark
@@ -170,69 +171,77 @@ run_thread_benchmark() {
 # Usage: run_mutex_benchmark
 run_mutex_benchmark() {
     print_header "Mutex Benchmark"
-    echo "Running mutex performance test..."
+    echo "Running mutex performance tests..." >&2
     
     sysbench mutex \
         --threads=$(nproc) \
         --mutex-num=1000 \
         --mutex-locks=100000 \
         --mutex-loops=10000 \
-        run | grep -E "total time:|events per second:|total number of events:|min:|avg:|max:|95th percentile:"
+        run | grep -E "total time:|events per second:|total number of events:|min:|avg:|max:|95th percentile:" | \
+        sed 's/^/    /' >> "$REPORT_FILE"
+    echo "" >> "$REPORT_FILE"
 }
 
-# Function to save results to file
-save_results() {
-    local output_file="sysbench_results_$(date +%Y%m%d_%H%M%S).txt"
-    {
-        echo "System Benchmark Results"
-        echo "Date: $(date)"
-        echo "System Information:"
-        echo "CPU: $(grep "model name" /proc/cpuinfo | head -n1 | cut -d: -f2)"
-        echo "Cores: $(nproc)"
-        echo "Memory: $(free -h | grep Mem | awk '{print $2}')"
-        echo "OS: $(cat /etc/os-release | grep PRETTY_NAME | cut -d= -f2 | tr -d '"')"
-        echo -e "\nBenchmark Results:"
-        cat /tmp/benchmark_results
-    } > "$output_file"
-    echo -e "\n${GREEN}Results saved to: $output_file${NC}"
+# Function to create report header
+create_report_header() {
+    cat << EOF > "$REPORT_FILE"
+# System Benchmark Report
+
+**Generated:** $TIMESTAMP
+
+## System Information
+
+- **CPU:** $(grep "model name" /proc/cpuinfo | head -n1 | cut -d: -f2)
+- **Cores:** $(nproc)
+- **Memory:** $(free -h | grep Mem | awk '{print $2}')
+- **OS:** $(cat /etc/os-release | grep PRETTY_NAME | cut -d= -f2 | tr -d '"')
+
+EOF
 }
 
 # Main benchmark execution
 main() {
+    # Set report filename
+    REPORT_FILE="benchmark_report_${REPORT_DATE}.md"
+    
     # Check if sysbench is installed
     check_sysbench
-    
-    # Create temporary file for results
-    exec 3>/tmp/benchmark_results
     
     # Start time
     start_time=$(date +%s)
     
-    print_header "Starting System Benchmark"
+    echo "Starting System Benchmark..."
     echo "This will take several minutes to complete..."
     
+    # Create report header
+    create_report_header
+    
     # Run all benchmarks
-    {
-        run_cpu_benchmark
-        run_memory_benchmark
-        run_fileio_benchmark
-        run_thread_benchmark
-        run_mutex_benchmark
-    } | tee /dev/fd/3
+    run_cpu_benchmark
+    run_memory_benchmark
+    run_fileio_benchmark
+    run_thread_benchmark
+    run_mutex_benchmark
     
     # End time
     end_time=$(date +%s)
     duration=$((end_time - start_time))
     
-    # Save results
-    save_results
+    # Add completion information
+    cat << EOF >> "$REPORT_FILE"
+## Benchmark Summary
+
+- **Total Duration:** ${duration} seconds
+- **Completion Time:** $(date '+%Y-%m-%d %H:%M:%S')
+
+---
+*Report generated by Benchpress v1.1.0*
+EOF
     
-    # Cleanup
-    rm /tmp/benchmark_results
-    
-    print_header "Benchmark Complete"
-    echo -e "Total time: ${GREEN}${duration} seconds${NC}"
+    echo "Benchmark complete! Report saved to: $REPORT_FILE"
 }
+
 
 # Run the benchmark
 main "$@"
