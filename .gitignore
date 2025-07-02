@@ -1,4 +1,6 @@
-### A ###
+############
+# #start A #
+############
 *.a
 *.ag
 *.agp
@@ -7,7 +9,11 @@
 *.applescript
 *.auto-changelog
 
-### B ###
+#end
+
+############
+# #start B #
+############
 *.babelrc
 *.backup
 *.bat
@@ -23,7 +29,11 @@
 build/
 bower_components/
 
-### C ###
+#end
+
+############
+# #start C #
+############
 .cache
 .cache/
 *_cache/
@@ -49,7 +59,11 @@ coverage.xml
 *.csvy
 *.cts
 
-### D ###
+#end
+
+############
+# #start D #
+############
 data/
 *.dat
 *.db
@@ -70,7 +84,11 @@ downloads/
 .dynamodb/
 .docusaurus
 
-### E ###
+#end
+
+############
+# #start E #
+############
 *.editorconfig
 *.edn
 *.ejs
@@ -90,7 +108,11 @@ eggs/
 *.eslintrc
 *.esprima
 
-### F ###
+#end
+
+############
+# #start F #
+############
 *.fa
 *.fa.gz
 *.fasta
@@ -106,7 +128,11 @@ eggs/
 *.fastq.gz
 .fusebox/
 
-### G ###
+#end
+
+############
+# #start G #
+############
 .git/
 .gitignore
 .gitattributes
@@ -116,16 +142,25 @@ eggs/
 *.gypi
 *.gz
 
-### H ###
+#end
+
+############
+# #start H #
+############
 *.h
 *.h5
 *.heic
 *.hh
 *.hpp
 *.html
+# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
 .httr-oauth
 
-### I ###
+#end
+
+############
+# #start I #
+############
 *.ico
 *.idx
 .idea/
@@ -138,17 +173,29 @@ index*.txt
 *.ipynb
 .ipynb_checkpoints
 
-### J ###
+#end
+
+############
+# #start J #
+############
 *.jsdoc
 jspm_packages/
 *.jshintignore
 *.jshintrc
 *.jst
 
-### K ###
+#end
+
+############
+# #start K #
+############
 *.knit.md
 
-### L ###
+#end
+
+############
+# #start L #
+############
 *.less
 *.lft
 lib/
@@ -162,7 +209,11 @@ logs/
 .log
 lerna-debug.log*
 
-### M ###
+#end
+
+############
+# #start M #
+############
 *.m
 *.mak
 MANIFEST
@@ -185,7 +236,11 @@ _mobile-templates
 *.mtx
 .mypy_cache/
 
-### N ###
+#end
+
+############
+# #start N #
+############
 *.nemo_action
 .next
 *.nix
@@ -204,7 +259,11 @@ node_modules/
 .nyc_output
 *.nycrc
 
-### O ###
+#end
+
+############
+# #start O #
+############
 .obsidian*
 *.odp
 *.otf
@@ -212,7 +271,11 @@ node_modules/
 output/
 out/
 
-### P ###
+#end
+
+############
+# #start P #
+############
 *.pack
 packrat/
 .parcel-cache
@@ -243,11 +306,19 @@ pyproject.toml
 __pycache__/
 *.py[cod]
 
-### Q ###
+#end
+
+############
+# #start Q #
+############
 .quarto/
 .quartohistory
 
-### R ###
+#end
+
+############
+# #start R #
+############
 *.rd
 *.rda
 *.rdata
@@ -273,7 +344,11 @@ requirements.txt.lock
 *.rules
 .Ruserdata
 
-### S ###
+#end
+
+############
+# #start S #
+############
 *.sample
 sdist/
 *.scm
@@ -293,7 +368,11 @@ share/python-wheels/
 *.symbols
 .stylelintcache
 
-### T ###
+#end
+
+############
+# #start T #
+############
 *.tar
 *.tar.gz
 *.temp
@@ -317,13 +396,21 @@ test/
 .temp
 tmp.*
 
-### U ###
+#end
+
+############
+# #start U #
+############
 *.uc
 *.ui
 *.utf8.md
 *.utils
 
-### V ###
+#end
+
+############
+# #start V #
+############
 var/
 .venv
 venv/
@@ -332,7 +419,11 @@ venv/
 *.wasm
 *.wast
 
-### W ###
+#end
+
+############
+# #start W #
+############
 *.watchmanconfig
 *.watchr
 web_modules/
@@ -342,48 +433,97 @@ wheels/
 *.woff
 *.woff2
 
-### X ###
+#end
+
+############
+# #start X #
+############
 *.xcf
 *.xcu
 *.xml
 *.xz
 
-### Y ###
+#end
+
+############
+# #start Y #
+############
 .yarn/
 .yarn-integrity
 yarn-debug.log*
 yarn-error.log*
 
-### Z ###
+#end
+
+############
+# #start Z #
+############
 *.zip
 
-### Special Sections ###
+#end
 
-# Quarto Specific
+###########################
+# #start Special Sections #
+###########################
+
+# #start Quarto
 /_book/
+*_cache/
+/cache/
 /_extensions/
-/_freeze/
-/_output/
-/_site/
 *_files/
+/_*.local
+/_output/
+.quarto/
+/_site/
 
-# R Specific
+# **Optional**
+# Depends on if you need others to reproduce your computational environment (https://quarto.org/docs/projects/code-execution.html#using-freeze)
+/_freeze/
+
+#end
+
+# #start Rlang
 *-Ex.R
 /*.Rcheck/
 .Rapp.history
+.Rproj.user/
+.Rbuildignore
+vignettes/*.html
 
-# System Files
+#end
+
+# #start renv dependency management
+renv/
+.renvignore
+!renv/activate.R
+
+#end
+
+# #start RStudio Connect folder
+rsconnect/
+
+#end
+
+# #start System
 .MAC*
 .Spotlight-V100
 ehthumbs.db
 Thumbs.db
 
-# Test and Coverage
+#end
+
+# #start Tesing
 .pytest_cache/
 rcov/
 nosetests.xml
 
-# Other Configuration
+#end
+
+# #start Other
 .ncbi
 .pandoc
 .stfolder*
+
+#end
+#end
