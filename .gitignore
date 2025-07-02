@@ -1,141 +1,389 @@
-# Version Control
-.git/
-.gitignore
+### A ###
+*.a
+*.ag
+*.agp
+*.aln
+*.apache2
+*.applescript
+*.auto-changelog
 
-# Environment and Configuration
-.env
-.env.*
-.venv
-venv/
-.tox/
-.Python
-.Renviron
-.Rprofile
-.installed.cfg
-*.local
-
-# Python Specific
-__pycache__/
-*.py[cod]     # Catches all variations of .pyc, .pyo, and .pyd
-pip-log.txt
-pip-delete-this-directory.txt
+### B ###
+*.babelrc
+*.backup
+*.bat
+*.bed
+*.bgz
+*.bin
+*.biom
+*.bnf
+*.browserslist
+*.browserslistrc
+*.bsd
+*.bz2
 build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-share/python-wheels/
-*.egg-info/
-*.egg
-MANIFEST
+bower_components/
 
-# R Specific
-.Rhistory
-.Rapp.history
-.RData
-.RDataTmp
-.Ruserdata
-*-Ex.R
-/*.Rcheck/
-.Rproj.user/
-*.Rproj
-.httr-oauth
+### C ###
+.cache
+.cache/
 *_cache/
-/cache/
-
-# Quarto Specific
-/.quarto/
-*_files/
-/_site/
-/_freeze/
-/_extensions/
-/_book/
-/_output/
-.quartohistory
-
-# Test and Coverage
+*.c
+*.canvas
+*.cc
+*.cfg
+*.changes
+*.cjs
+*.closure-compiler
+*.cmd
+*.code-workspace
+*.coffee
+*.conf
+.config
+*.coverage
 .coverage
 .coverage.*
-nosetests.xml
+coverage
 coverage.xml
-*.cover
-.pytest_cache/
-rcov/
-.mypy_cache/
-.dmypy.json
-dmypy.json
+*.cpp
+*.csl
+*.csvy
+*.cts
 
-# Logs and Cache
-.cache
-*.log
-logs/
-
-# Data and Local Storage
+### D ###
 data/
-references/
-ref/
-output/
-
-# Output and Temporary Files
-*.fasta
-*.fasta.gz
-*.fa
-*.fa.gz
-*.fastq
-*.fastq.gz
-*.fq
-*.fq.gz
-*.tmp
-*.temp
-tmp.*
-*~
-/*.tar.gz
-/*.html
-/*.sra
-*.sra
-output/*
-
-# R Markdown and Notebooks
-*.nb.html
-*_cache/
-/cache/
-*.knit.md
-*.utf8.md
-.ipynb_checkpoints
-
-# System Files
+*.dat
+*.db
+*.dcf
+*.deb
+.debris
+*.def
+*.desktop
+*.development
+*.dmypy.json
+*.dmp
+*.dockerignore
+dist/
+.directory
+downloads/
 .DS_Store
 .DS_Store?
-.Spotlight-V100
+.dynamodb/
+.docusaurus
+
+### E ###
+*.editorconfig
+*.edn
+*.ejs
+*.egg
+*.egg-info/
+eggs/
+*.eml
+.env
+.env.*
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+*.eot
+*.eslintcache
+*.eslintignore
+*.eslintrc
+*.esprima
+
+### F ###
+*.fa
+*.fa.gz
+*.fasta
+*.fasta.gz
+*.firebaserc
+*.fixme
+*.flake8
+*.flow
+*.flowconfig
+*.fq
+*.fq.gz
+*.fastq
+*.fastq.gz
+.fusebox/
+
+### G ###
+.git/
+.gitignore
+.gitattributes
+*.gif
+.grunt
+*.gyp
+*.gypi
+*.gz
+
+### H ###
+*.h
+*.h5
+*.heic
+*.hh
+*.hpp
+*.html
+.httr-oauth
+
+### I ###
+*.ico
+*.idx
+.idea/
+*.ignore
+*.iml
+*.in
+index*.txt
+*.ini
+.installed.cfg
+*.ipynb
+.ipynb_checkpoints
+
+### J ###
+*.jsdoc
+jspm_packages/
+*.jshintignore
+*.jshintrc
+*.jst
+
+### K ###
+*.knit.md
+
+### L ###
+*.less
+*.lft
+lib/
+lib64/
+*.license
+*.local
+*.lock
+*.log
+logs/
+.logs
+.log
+lerna-debug.log*
+
+### M ###
+*.m
+*.mak
+MANIFEST
+*.map
+*.md5
+md5sum*
+*.mdown
+*.mdx
+messages/
+.megaignore
+*.mf
+*.mit
+*.mjs
+*.mk
+*.mo
+_mobile-templates
+*.mov
+*.mp4
+*.mts
+*.mtx
+.mypy_cache/
+
+### N ###
+*.nemo_action
+.next
+*.nix
+*.node
+node_modules/
+*.nojekyll
+*.note
+.npm
+.node_repl_history
+*.npmignore
+*.npmrc
+*.numbers
+.nuxt
+*.nvmrc
+*.nwk
+.nyc_output
+*.nycrc
+
+### O ###
+.obsidian*
+*.odp
+*.otf
+*.out
+output/
+out/
+
+### P ###
+*.pack
+packrat/
+.parcel-cache
+parts/
+*.patch
+*.pdl
+*.pem
+pids
+*.pid
+*.pid.lock
+*.php
+*.phy
+*.pl
+*.plugin
+.pnp.*
+.pnpm-debug.log*
+*.pnm
+*.po
+*.pot
+poetry.lock
+*.prettierignore
+*.prettierrc
+*.production
+*.properties
+*.proto
+*.python-version
+pyproject.toml
+__pycache__/
+*.py[cod]
+
+### Q ###
+.quarto/
+.quartohistory
+
+### R ###
+*.rd
+*.rda
+*.rdata
+.RData
+.RDataTmp
+*.rdb
+*.rds
+*.rdx
+ref/
+references/
+*.renvignore
+requirements.txt.lock
+*.required
+*.rev
+*.ris
+*.rmd
+*.rnw
+*.rsa
+.rstudio/
+.Rproj.user/
+*.Rproj
+*.rua
+*.rules
+.Ruserdata
+
+### S ###
+*.sample
+sdist/
+*.scm
+*.seed
+.serverless/
+*.settings
+*.sfd
+share/python-wheels/
+*.snap
+*.so
+*.soc
+*.sql
+*.sqlite
+*.scss
+*.styl
+*.sublime-*
+*.symbols
+.stylelintcache
+
+### T ###
+*.tar
+*.tar.gz
+*.temp
+.temp
+*.tera
+*.test
+*.tex
+*.theme
+.tern-port
+tests/
+test/
+*.tmpreferences
+.tox/
+*.tree
+.trash
 .Trashes
+*.tsbuildinfo
+*.tsx
+*.ttf
+*.ttx
+.temp
+tmp.*
+
+### U ###
+*.uc
+*.ui
+*.utf8.md
+*.utils
+
+### V ###
+var/
+.venv
+venv/
+.vscode/
+.vscode-test/
+*.wasm
+*.wast
+
+### W ###
+*.watchmanconfig
+*.watchr
+web_modules/
+wheels/
+*.webp
+*.win
+*.woff
+*.woff2
+
+### X ###
+*.xcf
+*.xcu
+*.xml
+*.xz
+
+### Y ###
+.yarn/
+.yarn-integrity
+yarn-debug.log*
+yarn-error.log*
+
+### Z ###
+*.zip
+
+### Special Sections ###
+
+# Quarto Specific
+/_book/
+/_extensions/
+/_freeze/
+/_output/
+/_site/
+*_files/
+
+# R Specific
+*-Ex.R
+/*.Rcheck/
+.Rapp.history
+
+# System Files
+.MAC*
+.Spotlight-V100
 ehthumbs.db
 Thumbs.db
 
-# Development Tools and IDE
-.idea/
-.vscode/
-*.code-workspace
-*.sublime-workspace
-*.swp
-*.swo
-.rstudio/
+# Test and Coverage
+.pytest_cache/
+rcov/
+nosetests.xml
 
-# Package Management
-renv/
-renv.lock
-.renvignore
-packrat/
-poetry.lock
-pyproject.toml
-requirements.txt.lock
-Pipfile.lock
-
-# Other
+# Other Configuration
 .ncbi
-*_backup*
+.pandoc
+.stfolder*
