@@ -7,6 +7,8 @@
 *.aln
 *.apache2
 *.applescript
+*.archive
+archive.*
 *.auto-changelog
 
 #end
@@ -390,6 +392,10 @@ test/
 .trash
 .Trashes
 *.tsbuildinfo
+
+# TagSpaces metadata folder
+.ts/
+
 *.tsx
 *.ttf
 *.ttx
