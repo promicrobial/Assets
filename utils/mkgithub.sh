@@ -20,12 +20,13 @@
 #   - git: For repository initialization                                     #
 #     https://git-scm.com                                                    #
 #                                                                            #
-# Usage: ./mkgithub.sh <directory_name> [-git] [-project]                       #
+# Usage: ./mkgithub.sh <directory_name> [-git] [-project] [-Rpackage] [-h|--help]                      #
 #   Options:                                                                 #
 #     -git: Initialize git repository                                        #
 #     -project: Create additional directories for Quarto projects        #
+#     -h, --help: Show help message                                         #
 #                                                                            #
-# Last updated: 15-07-25                                               #
+# Last updated: 20/01/26                                               #
 ##############################################################################
 
 # Strict error handling
@@ -43,6 +44,86 @@ fi
 ################################################################################
 # Functions                                                                     #
 ################################################################################
+
+# Function: show_help
+# Description: Displays help message with usage instructions and options
+# Usage: show_help
+show_help() {
+    cat << EOF
+GitHub Repository Generator v1.0.0
+
+DESCRIPTION:
+    Creates a standardized GitHub repository structure with common directories
+    and files. Optionally initializes git repository and can create additional
+    directories for Quarto projects or R packages.
+
+USAGE:
+    $(basename "$0") <directory_name> [OPTIONS]
+
+ARGUMENTS:
+    directory_name    Name of the directory/repository to create
+                     Must start with a letter or number
+                     Cannot contain spaces, slashes, backslashes, or asterisks
+
+OPTIONS:
+    -git             Initialize git repository with initial commit
+    -project         Create additional directories for Quarto projects
+                     Adds: data, ref, results, manuscript, analysis, utils
+    -Rpackage        Create R package structure
+                     Adds: R, man, test, vignettes
+    -h, --help       Show this help message and exit
+
+EXAMPLES:
+    # Create basic repository structure
+    $(basename "$0") my-repo
+
+    # Create repository with git initialization
+    $(basename "$0") my-repo -git
+
+    # Create Quarto project structure with git
+    $(basename "$0") my-project -project -git
+
+    # Create R package structure
+    $(basename "$0") MyPackage -Rpackage
+
+    # Show help
+    $(basename "$0") --help
+
+DIRECTORY STRUCTURES:
+
+    Standard structure:
+    ├── _assets/         # Static assets (images, etc.)
+    ├── test/           # Test files
+    ├── scripts/        # Utility scripts
+    ├── README.md       # Project documentation
+    ├── .gitignore      # Git ignore rules
+    └── LICENSE         # License file
+
+    Project structure (includes standard + additional):
+    ├── data/           # Data files
+    ├── ref/            # Reference materials
+    ├── results/        # Analysis results
+    ├── manuscript/     # Manuscript files
+    ├── analysis/       # Analysis scripts
+    └── utils/          # Utility functions
+
+    R package structure (includes standard + additional):
+    ├── R/              # R source code
+    ├── man/            # Documentation
+    ├── test/           # Unit tests
+    └── vignettes/      # Package vignettes
+
+DEPENDENCIES:
+    - git (optional): Required for -git option
+    - wget: For downloading .gitignore template
+
+AUTHOR:
+    promicrobial
+
+LICENSE:
+    MIT License
+EOF
+}
 
 # Function: validate_directory_name
 # Description: Validates directory name for illegal characters and proper format
@@ -72,8 +153,8 @@ validate_directory_name() {
 # Usage: create_standard_structure "my-repo"
 create_standard_structure() {
     local base_dir="$1"
-    local dirs=("_assets" "src" "test" "scripts")
-    
+    local dirs=("_assets" "test" "scripts")
+
     for dir in "${dirs[@]}"; do
         mkdir -p "${base_dir}/${dir}"
         log_info "Created directory: ${dir}"
@@ -88,12 +169,29 @@ create_standard_structure() {
 create_proj_structure() {
     local base_dir="$1"
     local proj_dirs=("data" "ref" "results" "manuscript" "analysis" "utils")
-    
-    rm -r src || true  # Remove src if it exists to avoid conflicts
+
+    create_standard_structure "$base_dir"
 
     for dir in "${proj_dirs[@]}"; do
         mkdir -p "${base_dir}/${dir}"
-        log_info "Created projlication directory: ${dir}"
+        log_info "Created project directory: ${dir}"
+    done
+}
+
+# Function: create_proj_structure
+# Description: Creates additional directories for Quarto projects
+# Arguments:
+#   $1: Base directory name
+# Usage: create_proj_structure "my-repo"
+create_R_package_structure() {
+    local base_dir="$1"
+    local pack_dirs=("R" "man" "test" "vignettes")
+
+    Rscript
+
+    for dir in "${pack_dirs[@]}"; do
+        mkdir -p "${base_dir}/${dir}"
+        log_info "Created R package directory: ${dir}"
     done
 }
 
@@ -122,7 +220,7 @@ initialize_git() {
 # Usage: create_base_files "my-repo"
 create_base_files() {
     local dir="$1"
-    
+
     # Create README with template
     cat > "${dir}/README.md" << EOF
 # $(basename "$dir")
@@ -142,13 +240,13 @@ Contributing guidelines here.
 ## License
 License information here.
 EOF
-    
+
     # Create basic .gitignore
     wget -O ${dir}/.gitignore https://raw.githubusercontent.com/promicrobial/Assets/refs/heads/main/.gitignore
-    
+
     # Create empty LICENSE file
     touch "${dir}/LICENSE"
-    
+
     log_info "Created base repository files"
 }
 
@@ -162,49 +260,70 @@ EOF
 #   $@: All script arguments
 # Usage: main "$@"
 main() {
+
+    # Check for help flag first
+    for arg in "$@"; do
+        case "$arg" in
+            -h|--help)
+                show_help
+                exit 0
+                ;;
+        esac
+    done
+
     # Validate input
     if [[ $# -lt 1 ]]; then
         log_error "No directory name provided"
         echo "Usage: $(basename "$0") <directory_name> [-git] [-project]"
         exit 1
     fi
-    
+
     local dir_name="$1"
     local git=0
     local proj=0
-    
+    local Rpackage=0
+
     # Validate directory name
     if ! validate_directory_name "$dir_name"; then
         exit 1
     fi
-    
+
     # Parse flags
     shift
     while [[ $# -gt 0 ]]; do
         case "$1" in
             -git) git=1 ;;
             -project) proj=1 ;;
-            *) log_warn "Unknown option: $1" ;;
+            -Rpackage) Rpackage=1 ;;
+            -h|--help)
+                show_help
+                exit 0
+                ;;
+            *)
+                log_warn "Unknown option: $1"
+                echo "Use '$(basename "$0") --help' for available options."
+                ;;
         esac
         shift
     done
-    
-    # Create main structure
-    create_standard_structure "$dir_name"
-    
+
     # Create proj structure if requested
     if [[ $proj -eq 1 ]]; then
         create_proj_structure "$dir_name"
+    elif [[ $Rpackage -eq 1 ]]; then
+        create_R_package_structure "$dir_name"
+    else
+        create_standard_structure "$dir_name"
     fi
-    
+
     # Create base files
     create_base_files "$dir_name"
-    
+
     # Initialize git if requested
     if [[ $git -eq 1 ]]; then
         initialize_git "$dir_name"
     fi
-    
+
     log_info "Repository structure created successfully in: $dir_name"
 }
 
