@@ -1,267 +1,289 @@
 /*-- scss:defaults --*/
+/* This section defines default variables that can be overridden */
 
 $theme: "frappe" !default;
+/* Sets the theme name to "frappe" - this is part of the Catppuccin color scheme family */
 
 //
 // Color system
 //
+/* These are the main color variables from the Catppuccin "Frappe" theme palette */
 
-$text:    #c6d0f5 !default; 
-$surface2: #626880 !default; // surface2
-$surface1: #51576d !default; // surface1
-$surface0: #414559 !default; // surface0
-$overlay0: #737994 !default; // overlay0
-$subtext0: #a5adce !default; // subtext0
-$subtext1: #b5bfe2 !default; // subtext1
-$mantle: #292c3c !default; // mantle
-$crust: #232634 !default; // crust
-$base:    #303446 !default; // base
+$text:    #c6d0f5 !default;  /* Light grayish-blue - main text color */
+$surface2: #626880 !default; /* Medium gray - for elevated surfaces */
+$surface1: #51576d !default; /* Darker gray - for slightly elevated surfaces */
+$surface0: #414559 !default; /* Even darker gray - for base elevated surfaces */
+$overlay0: #737994 !default; /* Gray overlay color for subtle backgrounds */
+$subtext0: #a5adce !default; /* Lighter gray - for secondary text */
+$subtext1: #b5bfe2 !default; /* Even lighter gray - for tertiary text */
+$mantle: #292c3c !default;   /* Very dark blue-gray - darker than base */
+$crust: #232634 !default;    /* Darkest color - for deepest backgrounds */
+$base:    #303446 !default;  /* Dark blue-gray - main background color */
 
-$blue:    #8CAAEE !default;
-$mauve:  #ca9ee6 !default; 
-$pink:    #f4b8e4 !default;
-$red:     #e78284 !default;
-$orange:  #ef9f76 !default; // peach
-$yellow:  #e5c890 !default;
-$green:   #a6d189 !default;
-$teal:    #81c8be !default;
-$sky:    #99D1DB !default; 
+/* Accent colors - these provide visual interest and meaning */
+$blue:    #8CAAEE !default;  /* Soft blue - often used for links and primary actions */
+$mauve:  #ca9ee6 !default;   /* Light purple */
+$pink:    #f4b8e4 !default;  /* Soft pink */
+$red:     #e78284 !default;  /* Soft red - often used for errors/danger */
+$orange:  #ef9f76 !default;  /* Soft orange (labeled as "peach") */
+$yellow:  #e5c890 !default;  /* Soft yellow - often used for warnings */
+$green:   #a6d189 !default;  /* Soft green - often used for success states */
+$teal:    #81c8be !default;  /* Blue-green color */
+$sky:    #99D1DB !default;   /* Light blue */
 
+/* This function creates intermediate colors by mixing crust and subtext1 */
 @function body-mix($weight) {
   @return mix($crust, $subtext1, $weight);
+  /* $weight determines how much of $crust vs $subtext1 to use */
+  /* Higher weight = more crust (darker), lower weight = more subtext1 (lighter) */
 }
 
-$body-bg: #303446 !default; // base
-$body-color: #c6d0f5 !default; // text
-$contrast-bg: #c6d0f5 !default; // text
-$contrast-fg: #303446 !default; // base
+/* Main page colors */
+$body-bg: #303446 !default;     /* Background color for the entire page */
+$body-color: #c6d0f5 !default;  /* Default text color for the page */
+$contrast-bg: #c6d0f5 !default; /* Light color used for contrast */
+$contrast-fg: #303446 !default; /* Dark color used for contrast */
 
+/* Custom lighten/darken functions that work with the theme's contrast colors */
 @function lighten($color, $percent) {
   @return mix($contrast-bg, $color, $percent);
+  /* Makes colors lighter by mixing with the light contrast color */
 }
 
 @function darken($color, $percent) {
   @return mix($contrast-fg, $color, $percent);
+  /* Makes colors darker by mixing with the dark contrast color */
 }
 
-$primary: #8CAAEE !default; // blue
-$secondary: #737994 !default; // overlay0
-$success: $green !default;
-$info: $sky !default;
-$warning: $yellow !default;
-$danger: $red !default;
-$light: #414559 !default; // surface0
-$dark: #232634 !default; // crust
+/* Bootstrap's semantic color system - these give meaning to UI elements */
+$primary: #8CAAEE !default;   /* Main brand color (blue) */
+$secondary: #737994 !default; /* Secondary accent color (gray) */
+$success: $green !default;    /* Success state color (green) */
+$info: $sky !default;         /* Informational color (light blue) */
+$warning: $yellow !default;   /* Warning state color (yellow) */
+$danger: $red !default;       /* Error/danger state color (red) */
+$light: #414559 !default;     /* "Light" theme color (actually dark in this dark theme) */
+$dark: #232634 !default;      /* "Dark" theme color (darkest) */
 
-$min-contrast-ratio: 1.95 !default;
-$enable-shadows: true !default;
-$enable-gradients: true !default;
+/* Accessibility and visual settings */
+$min-contrast-ratio: 1.95 !default; /* Minimum contrast for readability */
+$enable-shadows: true !default;      /* Allow box shadows */
+$enable-gradients: true !default;    /* Allow gradient effects */
 
 // Components
-$component-active-color: $contrast-bg !default;
+$component-active-color: $contrast-bg !default; /* Color for active/selected states */
 
 // Links
-$link-color: #8CAAEE !default; // blue
+$link-color: #8CAAEE !default; /* Color for hyperlinks (blue) */
 
 // Fonts
+/* (Empty section - could be used for font-related variables) */
 
 // Tables
-
-$table-color:                 $contrast-bg !default;
-$table-accent-bg:             rgba($contrast-bg, .05) !default;
-$table-hover-bg:              rgba($contrast-bg, .075) !default;
-$table-border-color:          rgba($contrast-fg, .6) !default;
-$table-dark-border-color:     $table-border-color !default;
-$table-dark-color:            $contrast-bg !default;
-
-$table-bg-scale:              0% !default;
+/* Colors and styling for HTML tables */
+$table-color:                 $contrast-bg !default;      /* Text color in tables */
+$table-accent-bg:             rgba($contrast-bg, .05) !default;  /* Very subtle background for striped rows */
+$table-hover-bg:              rgba($contrast-bg, .075) !default; /* Background when hovering over rows */
+$table-border-color:          rgba($contrast-fg, .6) !default;   /* Color of table borders */
+$table-dark-border-color:     $table-border-color !default;     /* Border color for dark tables */
+$table-dark-color:            $contrast-bg !default;            /* Text color for dark tables */
+$table-bg-scale:              0% !default; /* How much to scale background colors */
 
 // Buttons
-
-$input-btn-padding-y:         .75rem !default;
-$input-btn-padding-x:         1rem !default;
+/* Padding (internal spacing) for buttons and form inputs */
+$input-btn-padding-y:         .75rem !default; /* Vertical padding (top/bottom) */
+$input-btn-padding-x:         1rem !default;   /* Horizontal padding (left/right) */
 
 // Forms
+/* Styling for form elements like input fields, dropdowns, etc. */
+$input-bg:                          $contrast-bg !default;                    /* Background of input fields */
+$input-color:                       body-mix(100%) !default;                 /* Text color in inputs */
+$input-border-color:                rgba($contrast-fg, .6) !default;         /* Border color of inputs */
+$input-group-addon-color:           $subtext0 !default;                      /* Text color for input add-ons */
+$input-group-addon-bg:              body-mix(33.3%) !default;                /* Background for input add-ons */
+$input-disabled-color:              body-mix(0) !default;                    /* Text color when input is disabled */
+$input-disabled-bg:                 mix($contrast-bg, $contrast-fg, 80%) !default; /* Background when disabled */
 
-$input-bg:                          $contrast-bg !default;
-$input-color:                       body-mix(100%) !default;
-$input-border-color:                rgba($contrast-fg, .6) !default;
-$input-group-addon-color:           $subtext0 !default;
-$input-group-addon-bg:              body-mix(33.3%) !default;
-$input-disabled-color:              body-mix(0) !default;
-$input-disabled-bg:                 mix($contrast-bg, $contrast-fg, 80%) !default;
+$form-check-input-bg:                     $contrast-bg !default; /* Background for checkboxes/radio buttons */
 
-$form-check-input-bg:                     $contrast-bg !default;
+$form-select-disabled-bg:           $input-disabled-bg !default;    /* Background for disabled dropdowns */
+$form-select-disabled-color:        $input-disabled-color !default; /* Text color for disabled dropdowns */
 
-$form-select-disabled-bg:           $input-disabled-bg !default;
-$form-select-disabled-color:        $input-disabled-color !default;
-
-$form-file-button-color:          $input-group-addon-color !default;
-$form-file-button-bg:             $input-group-addon-bg !default;
-$form-file-button-hover-bg:       darken($form-file-button-bg, 5%) !default;
+/* File upload button styling */
+$form-file-button-color:          $input-group-addon-color !default;     /* Text color */
+$form-file-button-bg:             $input-group-addon-bg !default;        /* Background color */
+$form-file-button-hover-bg:       darken($form-file-button-bg, 5%) !default; /* Background when hovering */
 
 // Dropdowns
-
-$dropdown-bg:                       body-mix(66.7%) !default;
-$dropdown-border-color:             rgba($contrast-fg, .6) !default;
-$dropdown-divider-bg:               rgba($contrast-fg, .15) !default;
-$dropdown-link-color:               $body-color !default;
-$dropdown-link-hover-color:         $contrast-bg !default;
-$dropdown-link-hover-bg:            $body-bg !default;
-$dropdown-link-active-color:        $dropdown-link-hover-color !default;
-$dropdown-link-active-bg:           $dropdown-link-hover-bg !default;
+/* Styling for dropdown menus */
+$dropdown-bg:                       body-mix(66.7%) !default;             /* Background of dropdown */
+$dropdown-border-color:             rgba($contrast-fg, .6) !default;      /* Border color */
+$dropdown-divider-bg:               rgba($contrast-fg, .15) !default;     /* Color of separator lines */
+$dropdown-link-color:               $body-color !default;                 /* Text color of menu items */
+$dropdown-link-hover-color:         $contrast-bg !default;                /* Text color when hovering */
+$dropdown-link-hover-bg:            $body-bg !default;                    /* Background when hovering */
+$dropdown-link-active-color:        $dropdown-link-hover-color !default;  /* Text color when active */
+$dropdown-link-active-bg:           $dropdown-link-hover-bg !default;     /* Background when active */
 
 // Navs
-
-$nav-tabs-border-color:             rgba($contrast-fg, .6) !default;
-$nav-tabs-link-hover-border-color:  $nav-tabs-border-color !default;
-$nav-tabs-link-active-color:        $contrast-bg !default;
-$nav-tabs-link-active-border-color: $nav-tabs-border-color !default;
+/* Styling for navigation tabs */
+$nav-tabs-border-color:             rgba($contrast-fg, .6) !default;      /* Border color of tabs */
+$nav-tabs-link-hover-border-color:  $nav-tabs-border-color !default;      /* Border when hovering */
+$nav-tabs-link-active-color:        $contrast-bg !default;                /* Text color of active tab */
+$nav-tabs-link-active-border-color: $nav-tabs-border-color !default;      /* Border of active tab */
 
 // Navbar
-
-$navbar-padding-y:                  0 !default;
+/* Styling for navigation bars */
+$navbar-padding-y:                  0 !default; /* Vertical padding (set to 0) */
 
 // Pagination
-
-$pagination-color:                  $contrast-bg !default;
-$pagination-bg:                     transparent !default;
-$pagination-border-color:           rgba($contrast-fg, .6) !default;
-$pagination-hover-color:            $contrast-bg !default;
-$pagination-hover-bg:               transparent !default;
-$pagination-hover-border-color:     rgba($contrast-fg, .6) !default;
-$pagination-active-bg:              transparent !default;
-$pagination-active-border-color:    rgba($contrast-fg, .6) !default;
-$pagination-disabled-bg:            transparent !default;
-$pagination-disabled-border-color:  rgba($contrast-fg, .6) !default;
+/* Styling for page number navigation (1, 2, 3, Next, etc.) */
+$pagination-color:                  $contrast-bg !default;                 /* Text color */
+$pagination-bg:                     transparent !default;                  /* Background (transparent) */
+$pagination-border-color:           rgba($contrast-fg, .6) !default;       /* Border color */
+$pagination-hover-color:            $contrast-bg !default;                 /* Text color when hovering */
+$pagination-hover-bg:               transparent !default;                  /* Background when hovering */
+$pagination-hover-border-color:     rgba($contrast-fg, .6) !default;       /* Border when hovering */
+$pagination-active-bg:              transparent !default;                  /* Background of current page */
+$pagination-active-border-color:    rgba($contrast-fg, .6) !default;       /* Border of current page */
+$pagination-disabled-bg:            transparent !default;                  /* Background when disabled */
+$pagination-disabled-border-color:  rgba($contrast-fg, .6) !default;       /* Border when disabled */
 
 // Cards
-
-$card-border-color:                 rgba($contrast-fg, .6) !default;
-$card-cap-bg:                       lighten(body-mix(66.7%), 10%) !default;
-$card-bg:                           lighten($body-bg, 5%) !default;
+/* Styling for card components (rectangular containers with content) */
+$card-border-color:                 rgba($contrast-fg, .6) !default;       /* Border color */
+$card-cap-bg:                       lighten(body-mix(66.7%), 10%) !default; /* Background of card header/footer */
+$card-bg:                           lighten($body-bg, 5%) !default;         /* Background of card body */
 
 // Popovers
-
-$popover-bg:                        lighten($body-bg, 5%) !default;
+/* Styling for popup tooltips */
+$popover-bg:                        lighten($body-bg, 5%) !default; /* Background color */
 
 // Toasts (i.e popups)
-
-$toast-background-color:            lighten($body-bg, 5%) !default;
-$toast-border-color:                rgba(0, 0, 0, .2) !default;
-$toast-header-color:                $body-color !default;
-$toast-header-background-color:     $toast-background-color !default;
-$toast-header-border-color:         $toast-border-color !default;
+/* Styling for notification popups */
+$toast-background-color:            lighten($body-bg, 5%) !default;    /* Background */
+$toast-border-color:                rgba(0, 0, 0, .2) !default;       /* Border (semi-transparent black) */
+$toast-header-color:                $body-color !default;              /* Header text color */
+$toast-header-background-color:     $toast-background-color !default;  /* Header background */
+$toast-header-border-color:         $toast-border-color !default;      /* Header border */
 
 // Modals
-
-$modal-content-bg:                  lighten($body-bg, 5%) !default;
-$modal-header-border-color:         rgba(0, 0, 0, .2) !default;
+/* Styling for modal dialogs (popup windows) */
+$modal-content-bg:                  lighten($body-bg, 5%) !default;    /* Background */
+$modal-header-border-color:         rgba(0, 0, 0, .2) !default;       /* Header border */
 
 // Progress bars
-
-$progress-bg:                       darken(body-mix(100%), 5%) !default;
-$progress-bar-color:                body-mix(0) !default;
+/* Styling for progress/loading bars */
+$progress-bg:                       darken(body-mix(100%), 5%) !default; /* Background of progress track */
+$progress-bar-color:                body-mix(0) !default;               /* Color of progress fill */
 
 // List group
-
-$list-group-color:                  $contrast-bg !default;
-$list-group-bg:                     lighten($body-bg, 5%) !default;
-$list-group-border-color:           rgba($contrast-fg, .6) !default;
-$list-group-item-bg-scale:          0% !default;
-$list-group-hover-bg:               lighten($body-bg, 10%) !default;
-$list-group-active-color:           $contrast-bg !default;
-$list-group-active-bg:              $list-group-hover-bg !default;
-$list-group-active-border-color:    $list-group-border-color !default;
-$list-group-disabled-color:         body-mix(33.3%) !default;
-$list-group-action-color:           $contrast-bg !default;
+/* Styling for lists of items */
+$list-group-color:                  $contrast-bg !default;                /* Text color */
+$list-group-bg:                     lighten($body-bg, 5%) !default;        /* Background */
+$list-group-border-color:           rgba($contrast-fg, .6) !default;       /* Border color */
+$list-group-item-bg-scale:          0% !default;                          /* Background scaling (disabled) */
+$list-group-hover-bg:               lighten($body-bg, 10%) !default;       /* Background when hovering */
+$list-group-active-color:           $contrast-bg !default;                 /* Text color when active */
+$list-group-active-bg:              $list-group-hover-bg !default;         /* Background when active */
+$list-group-active-border-color:    $list-group-border-color !default;     /* Border when active */
+$list-group-disabled-color:         body-mix(33.3%) !default;              /* Text color when disabled */
+$list-group-action-color:           $contrast-bg !default;                 /* Text color for actionable items */
 
 // Breadcrumbs
-
-$breadcrumb-padding-y:              .375rem !default;
-$breadcrumb-padding-x:              .75rem !default;
-$breadcrumb-active-color:           $subtext0 !default;
-$breadcrumb-border-radius:          .25rem !default;
+/* Styling for breadcrumb navigation (Home > Products > Category) */
+$breadcrumb-padding-y:              .375rem !default;  /* Vertical padding */
+$breadcrumb-padding-x:              .75rem !default;   /* Horizontal padding */
+$breadcrumb-active-color:           $subtext0 !default; /* Color of current page in breadcrumb */
+$breadcrumb-border-radius:          .25rem !default;   /* Rounded corner radius */
 
 // Code
-
-$pre-color:                         $surface0 !default;
+/* Styling for code blocks */
+$pre-color:                         $surface0 !default; /* Text color in code blocks */
 
 /*-- scss:rules --*/
+/* This section contains actual CSS rules that will be applied */
 
 // Variables
+/* (Empty section) */
 
 // Mixins
+/* Mixins are reusable pieces of CSS that can be included in other rules */
 
+/* Creates a 3-color gradient shadow effect for buttons */
 @mixin btn-shadow($color){
   @include gradient-y-three-colors(tint-color($color, 12%), $color, 60%, shade-color($color, 8%));
-  filter: none;
+  /* Creates a vertical gradient from lighter to darker shades of the color */
+  filter: none; /* Removes any existing filters */
 }
 
+/* Creates an inverse (darker) shadow effect */
 @mixin btn-shadow-inverse($color){
   @include gradient-y-three-colors(shade-color($color, 16%), shade-color($color, 10%), 40%, shade-color($color, 6%));
   filter: none;
 }
 
+/* Creates an even darker inverse shadow effect */
 @mixin btn-shadow-inverse-dark($color){
   @include gradient-y-three-colors(shade-color($color, 36%), shade-color($color, 30%), 40%, shade-color($color, 26%));
   filter: none;
 }
 
 // Navbar
-
+/* Styling rules for navigation bars */
 .navbar {
-  text-shadow: 1px 1px 1px rgba($contrast-fg, .2);
-  border: 1px solid rgba($contrast-fg, .6);
+  text-shadow: 1px 1px 1px rgba($contrast-fg, .2); /* Subtle text shadow for depth */
+  border: 1px solid rgba($contrast-fg, .6);        /* Border around entire navbar */
 
   .container {
-    padding: 0;
+    padding: 0; /* Remove default padding from container */
   }
 
-  .navbar-toggler {
+  .navbar-toggler { /* Mobile menu button */
     border-color: rgba($contrast-fg, .6);
   }
 
-  &-fixed-top {
-    border-width: 0 0 1px;
+  &-fixed-top { /* When navbar is stuck to top */
+    border-width: 0 0 1px; /* Only bottom border */
   }
 
-  &-fixed-bottom {
-    border-width: 1px 0 0;
+  &-fixed-bottom { /* When navbar is stuck to bottom */
+    border-width: 1px 0 0; /* Only top border */
   }
 
-  .nav-link {
+  .nav-link { /* Individual navigation links */
     padding: 1rem;
-    border-right: 1px solid rgba($contrast-fg, .2);
-    border-left: 1px solid rgba($contrast-bg, .1);
+    border-right: 1px solid rgba($contrast-fg, .2); /* Right border */
+    border-left: 1px solid rgba($contrast-bg, .1);  /* Left border (lighter) */
   }
 
-  &-brand {
-    padding: .75rem 1rem subtract(24px, .75rem);
+  &-brand { /* Logo/brand area */
+    padding: .75rem 1rem subtract(24px, .75rem); /* Custom padding calculation */
     margin-right: 0;
     border-right: 1px solid rgba($contrast-fg, .2);
   }
 
-  .nav-item.active .nav-link {
+  .nav-item.active .nav-link { /* Currently active navigation item */
     background-color: rgba($contrast-fg, .3);
     border-left: 1px solid rgba($contrast-fg, .2);
   }
 
-  &-nav .nav-item + .nav-item {
-    margin-left: 0;
+  &-nav .nav-item + .nav-item { /* Adjacent navigation items */
+    margin-left: 0; /* Remove spacing between items */
   }
 
+  /* Loop through all theme colors and apply hover/active effects */
   @each $color, $value in $theme-colors {
-    &.bg-#{$color} {
+    &.bg-#{$color} { /* When navbar has a colored background */
 
       .nav-link {
-        &:hover {
+        &:hover { /* When hovering over links */
           @include btn-shadow-inverse($value);
           border-left: 1px solid rgba($contrast-fg, .2);
         }
 
         &:active,
-        &.active {
+        &.active { /* When links are active/pressed */
           @include btn-shadow-inverse-dark($value);
           border-left: 1px solid rgba($contrast-fg, .2);
         }
@@ -270,11 +292,12 @@ $pre-color:                         $surface0 !default;
   }
 }
 
+/* Media queries for responsive design - remove borders on small screens */
 @media (max-width: 576px) {
   .navbar-expand-sm {
     .navbar-brand,
     .nav-link {
-      border: none !important;
+      border: none !important; /* !important overrides other border rules */
     }
   }
 }
@@ -298,17 +321,19 @@ $pre-color:                         $surface0 !default;
 }
 
 // Buttons
-
+/* Styling for buttons */
 .btn {
-  text-shadow: 1px 1px 1px rgba($contrast-fg, .3);
-  border-color: rgba($contrast-fg, .6);
+  text-shadow: 1px 1px 1px rgba($contrast-fg, .3); /* Text shadow for depth */
+  border-color: rgba($contrast-fg, .6);            /* Border color */
 
+  /* Active and disabled button states */
   &:not([disabled]):not(.disabled).active,
   &.disabled {
     border-color: rgba($contrast-fg, .6);
-    box-shadow: none;
+    box-shadow: none; /* Remove shadow effects */
   }
 
+  /* Various interactive states */
   &:hover,
   &:focus,
   &:not([disabled]):not(.disabled):active,
@@ -317,16 +342,17 @@ $pre-color:                         $surface0 !default;
     border-color: rgba($contrast-fg, .6);
   }
 
+  /* Apply shadow effects to each theme color button */
   @each $color, $value in $theme-colors {
-    &-#{$color} {
+    &-#{$color} { /* e.g., .btn-primary, .btn-success, etc. */
       @include btn-shadow($value);
 
-      &:not([disabled]):not(.disabled):hover {
+      &:not([disabled]):not(.disabled):hover { /* Hover effect */
         @include btn-shadow-inverse($value);
       }
 
       &:not([disabled]):not(.disabled):active:hover,
-      &:not([disabled]):not(.disabled).active:hover {
+      &:not([disabled]):not(.disabled).active:hover { /* Active hover effect */
         @include btn-shadow-inverse-dark($value);
       }
     }
@@ -334,30 +360,31 @@ $pre-color:                         $surface0 !default;
 }
 
 .btn-outline {
-  &-primary {
+  &-primary { /* Outline primary button */
     color: $text;
   }
 }
 
 .btn-link,
-.btn-link:hover {
-  border-color: transparent;
+.btn-link:hover { /* Link-style buttons */
+  border-color: transparent; /* No visible border */
 }
 
 .btn-group,
-.btn-group-vertical {
+.btn-group-vertical { /* Grouped buttons */
   .btn.active {
     border-color: rgba($contrast-fg, .6);
   }
 }
 
 .btn-check:checked + .btn,
-.btn-check + .btn:hover {
+.btn-check + .btn:hover { /* Checkbox-style buttons */
   color: $text;
   border-color: rgba($contrast-fg, .6);
 }
 
 // Typography
+/* Styling for headings and text */
 
 h1,
 h2,
@@ -365,109 +392,127 @@ h3,
 h4,
 h5,
 h6 {
-  text-shadow: -1px -1px 0 rgba($contrast-fg, .3);
+  text-shadow: -1px -1px 0 rgba($contrast-fg, .3); /* Shadow for all headings */
 }
 
-h1 {
-  color: $blue;
-}
-h2 {
-  color: $mauve;
-}
-h3 {
-  color: $green;
-}
-h4 {
-  color: $orange;
-}
-h5 {
-  color: $yellow;
-}
-h6 {
-  color: $red;  
-}
+/* Each heading level gets a different color */
+h1 { color: $blue; }
+h2 { color: $mauve; }
+h3 { color: $green; }
+h4 { color: $orange; }
+h5 { color: $yellow; }
+h6 { color: $red; }
 
-strong {
+strong { /* Bold text */
   color: $teal;
 }
 
-em {
+em { /* Italic text */
   color: $green;
 }
 
-mark, p {
-  text-align: justify;
-  text-justify: inter-word; 
+mark, p { /* Highlighted text and paragraphs */
+  text-align: justify;      /* Spread text evenly across line */
+  text-justify: inter-word; /* Adjust spacing between words for justification */
 }
 
 // Cards
-
+/* Custom card styling for paragraphs (excluding certain contexts) */
 p:not(.callout p), 
-p:not(figure p) {
+p:not(figure p) { /* Paragraphs that aren't inside callouts or figures */
   position: relative;
 
   min-width: 0;
-  height: var(--bs-card-height);
+  height: var(--bs-card-height); /* Use Bootstrap's card height variable */
 
-  padding: calc(1.5rem + 2px);
-  margin-bottom: 1.5rem;
+  padding: calc(1.5rem + 2px); /* Calculated padding */
+  margin-bottom: 1.5rem;       /* Space below each paragraph */
 
-  box-shadow: 0 4px 12px rgba(0,0,0,.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,.1); /* Subtle shadow */
 
-  background-color: var(--surface0);
-  background-clip: border-box;
+  background-color: var(--surface0); /* Background color */
+  background-clip: border-box;        /* How background extends */
 
-  border: solid;
-  border-color: currentcolor;
-  border-radius: .625rem;
+  border: solid;                /* Solid border */
+  border-color: currentcolor;   /* Border uses current text color */
+  border-radius: .625rem;       /* Rounded corners */
 
-  word-break: normal;
-  overflow-x: auto;
-  overflow-y: hidden;
-  word-wrap: break-word;
-
+  word-break: normal;    /* Normal word breaking */
+  overflow-x: auto;      /* Horizontal scroll if needed */
+  overflow-y: hidden;    /* Hide vertical overflow */
+  word-wrap: break-word; /* Break long words */
 }
 
 // Code Blocks
 
-// sourceCode cell-code {
-
-// }
+pre.numberSource {
+  code > span {
+    display: grid;
+    grid-template-columns: 4em 1fr;
+    grid-gap: 0;
+    align-items: start;
+    
+    a:first-child {
+      grid-column: 1;
+      justify-self: end;
+      padding-right: 8px;
+      
+      &::before {
+        content: counter(source-line);
+        color: $subtext0;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+    }
+    
+    /* All content after the first anchor goes in the second column */
+    > :not(a:first-child) {
+      grid-column: 2;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+  }
+}
 
 // Inline Code
-
+/* Styling for code snippets within text */
 p code, pre code {
-  color: $subtext0;
-  background-color: $crust !important;
-  margin: auto;
-  padding: 0px;
-
+  color: $subtext0;                    /* Text color */
+  background-color: $crust !important; /* Background color (forced with !important) */
+  margin: auto;                        /* Center alignment */
+  padding: 0px;                        /* No internal padding */
 }
 
 // Forms
-
-legend {
+/* Form element styling */
+legend { /* Form section titles */
   color: $text;
 }
 
-.input-group-addon {
+.input-group-addon { /* Add-on elements attached to inputs */
   @include btn-shadow($secondary);
   color: $text;
   text-shadow: 1px 1px 1px rgba($contrast-fg, .3);
 }
 
 // Navs
-
-.nav-tabs {
+/* Navigation component styling */
+.nav-tabs { /* Tab-style navigation */
   .nav-link {
-    @include btn-shadow-inverse(body-mix(66.7%));
+    @include btn-shadow-inverse(body-mix(66.7%)); /* Default shadow */
     border: 1px solid rgba($contrast-fg, .6);
 
+    /* Interactive states */
     &:not([disabled]):not(.disabled):hover,
     &:not([disabled]):not(.disabled):focus,
     &:not([disabled]):not(.disabled):active,
     &:not([disabled]):not(.disabled).active {
-      @include btn-shadow(body-mix(66.7%));
+      @include btn-shadow(body-mix(66.7%)); /* Different shadow when active */
     }
 
     &.disabled {
@@ -481,7 +526,7 @@ legend {
   }
 }
 
-.nav-pills {
+.nav-pills { /* Pill-style navigation */
   .nav-link {
     @include btn-shadow(body-mix(66.7%));
     color: $text;
@@ -508,27 +553,27 @@ legend {
   }
 }
 
-.pagination {
+.pagination { /* Page navigation styling */
   .page-link {
     text-shadow: 1px 1px 1px rgba($contrast-fg, .3);
     @include btn-shadow(body-mix(66.7%));
 
     &:hover {
       @include btn-shadow-inverse(body-mix(66.7%));
-      text-decoration: none;
+      text-decoration: none; /* Remove underline */
     }
   }
 
-  .page-item.active .page-link {
+  .page-item.active .page-link { /* Current page */
     @include btn-shadow-inverse(body-mix(66.7%));
   }
 
-  .page-item.disabled .page-link {
+  .page-item.disabled .page-link { /* Disabled page links */
     @include btn-shadow(body-mix(66.7%));
   }
 }
 
-.breadcrumb {
+.breadcrumb { /* Breadcrumb navigation styling */
   text-shadow: 1px 1px 1px rgba($contrast-fg, .3);
   background-color: transparent;
   border: 1px solid rgba($contrast-fg, .6);
@@ -541,24 +586,25 @@ legend {
 }
 
 // Indicators
-
-.alert {
+/* Alert and status indicator styling */
+.alert { /* Alert/notification boxes */
   color: $text;
   border: none;
 
   a,
-  .alert-link {
+  .alert-link { /* Links within alerts */
     color: $text;
     text-decoration: underline;
   }
 
+  /* Apply theme colors to different alert types */
   @each $color, $value in $theme-colors {
-    &-#{$color} {
+    &-#{$color} { /* e.g., .alert-success, .alert-danger, etc. */
       background-color: $value;
     }
   }
 
-  &-light {
+  &-light { /* Light alerts need dark text */
     &,
     a:not(.btn),
     .alert-link {
@@ -567,32 +613,31 @@ legend {
   }
 }
 
-.badge {
-  &.bg-light {
+.badge { /* Small status indicators */
+  &.bg-light { /* Light badges need dark text */
     color: $dark;
   }
 }
 
-.tooltip {
-  --bs-tooltip-bg: var(--bs-tertiary-bg);
-  --bs-tooltip-color: var(--bs-emphasis-color);
+.tooltip { /* Hover tooltips */
+  --bs-tooltip-bg: var(--bs-tertiary-bg);     /* Background color */
+  --bs-tooltip-color: var(--bs-emphasis-color); /* Text color */
 }
 
 // Containers
-
-.list-group {
+/* Container component styling */
+.list-group { /* List of items */
   &-item {
     color: $text;
 
-    &-light {
+    &-light { /* Light list items need dark text */
       color: $dark;
     }
   }
 
-  &-item-action:hover {
-    background-color: shade-color($crust, 10%);
+  &-item-action:hover { /* Interactive list items when hovered */
+    background-color: shade-color($crust, 10%); /* Slightly darker background */
   }
 }
 
-
-// quarto-scss-analysis-annotation { "origin": null }
+/* quarto-scss-analysis-annotation { "origin": null } */
