@@ -416,67 +416,67 @@ mark, p { /* Highlighted text and paragraphs */
   text-justify: inter-word; /* Adjust spacing between words for justification */
 }
 
-// Cards
-/* Custom card styling for paragraphs (excluding certain contexts) */
-p:not(.callout p), 
-p:not(figure p) { /* Paragraphs that aren't inside callouts or figures */
-  position: relative;
-
-  min-width: 0;
-  height: var(--bs-card-height); /* Use Bootstrap's card height variable */
-
-  padding: calc(1.5rem + 2px); /* Calculated padding */
-  margin-bottom: 1.5rem;       /* Space below each paragraph */
-
-  box-shadow: 0 4px 12px rgba(0,0,0,.1); /* Subtle shadow */
-
-  background-color: var(--surface0); /* Background color */
-  background-clip: border-box;        /* How background extends */
-
-  border: solid;                /* Solid border */
-  border-color: currentcolor;   /* Border uses current text color */
-  border-radius: .625rem;       /* Rounded corners */
-
-  word-break: normal;    /* Normal word breaking */
-  overflow-x: auto;      /* Horizontal scroll if needed */
-  overflow-y: hidden;    /* Hide vertical overflow */
-  word-wrap: break-word; /* Break long words */
-}
-
 // Code Blocks
 
 pre.numberSource {
+  counter-reset: source-line;
+  line-height: 1;
+  
   code > span {
-    display: grid;
-    grid-template-columns: 4em 1fr;
-    grid-gap: 0;
-    align-items: start;
+    display: block; /* Stack lines vertically */
+    position: relative;
+    padding-left: 4em; /* Space for line numbers */
+    counter-increment: source-line;
+    margin-bottom: 0;
     
-    a:first-child {
-      grid-column: 1;
-      justify-self: end;
-      padding-right: 8px;
+    /* The anchor for line numbers */
+    > a {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 3.5em;
+      text-align: right;
+      padding-right: 0.5em;
+      text-decoration: none;
       
-      &::before {
-        content: counter(source-line);
+      &::after {
         color: $subtext0;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
         user-select: none;
+        font-family: monospace;
       }
     }
     
-    /* All content after the first anchor goes in the second column */
-    > :not(a:first-child) {
-      grid-column: 2;
+    /* All code content flows normally with left padding */
+    > span {
       white-space: pre-wrap;
       word-wrap: break-word;
       overflow-wrap: break-word;
+      display: inline; /* Keep syntax highlighting inline */
+      line-height: inherit;
     }
   }
+  
+  code {
+    white-space: pre-wrap;
+    display: block;
+    line-height: 1.2;
+  }
+}
+
+pre > code.sourceCode > span {
+	line-height: inherit;
+}
+
+// code blocks span margin
+
+.sourceCode {
+  width: 52vw;
+	line-height: 1.2em;
+  
+  /* Keep all existing word wrap styles */
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 // Inline Code
