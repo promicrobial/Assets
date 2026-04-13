@@ -1,0 +1,91 @@
+%
+%
+% Listings
+%
+%
+
+$if(listings)$
+
+%
+% general listing colors
+%
+\definecolor{listing-background}{HTML}{303446} % base - for background
+\definecolor{listing-rule}{HTML}{232634}     % crust - for borders/rules
+\definecolor{listing-numbers}{HTML}{A5ADCE}  % subtext0 - for line numbers
+\definecolor{listing-text-color}{HTML}{C6D0F5} % text - for main text
+\definecolor{listing-keyword}{HTML}{8CAAEE}  % blue - for primary keywords
+\definecolor{listing-keyword-2}{HTML}{85C1DC} % sapphire - for secondary keywords
+\definecolor{listing-keyword-3}{HTML}{CA9EE6} % mauve - for tertiary keywords
+\definecolor{listing-identifier}{HTML}{C6D0F5} % text - for identifiers
+\definecolor{listing-string}{HTML}{A6D189}   % green - for strings
+\definecolor{listing-comment}{HTML}{737994}  % overlay0 - for comments
+
+\lstset{
+  frame=single,                       % Frame type (single, none, leftline, etc.)
+  frameround=ffff,                    % Round corners (t = round, f = square)
+  backgroundcolor  = \color{listing-background},
+  numberstyle      = \color{listing-numbers},
+  rulecolor=\color{listing-rule},         % Frame color 
+  numbers          = left,
+  framesep=0.5em,                     % Frame separation
+  rulesep=1mm,                        % Rule separation
+  breakatwhitespace=false,            % Break at whitespace only
+  showspaces=false,                   % Show space characters
+  showstringspaces=false,             % Show spaces in strings
+  xrightmargin=3.5em,                 % Right margin
+  framexrightmargin=15em,              % Frame right margin
+  xleftmargin=3.5em,                  % Left margin
+  framexleftmargin=2.5em
+}
+
+%
+% Java (Java SE 12, 2019-06-22)
+%
+\lstdefinelanguage{Java}{
+  morekeywords={
+    % normal keywords (without data types)
+    abstract,assert,break,case,catch,class,continue,default,
+    do,else,enum,exports,extends,final,finally,for,if,implements,
+    import,instanceof,interface,module,native,new,package,private,
+    protected,public,requires,return,static,strictfp,super,switch,
+    synchronized,this,throw,throws,transient,try,volatile,while,
+    % var is an identifier
+    var
+  },
+  morekeywords={[2] % data types
+    % primitive data types
+    boolean,byte,char,double,float,int,long,short,
+    % String
+    String,
+    % primitive wrapper types
+    Boolean,Byte,Character,Double,Float,Integer,Long,Short
+    % number types
+    Number,AtomicInteger,AtomicLong,BigDecimal,BigInteger,DoubleAccumulator,DoubleAdder,LongAccumulator,LongAdder,Short,
+    % other
+    Object,Void,void
+  },
+  morekeywords={[3] % literals
+    % reserved words for literal values
+    null,true,false,
+  },
+  sensitive,
+  morecomment  = [l]//,
+  morecomment  = [s]{/*}{*/},
+  morecomment  = [s]{/**}{*/},
+  morestring   = [b]",
+  morestring   = [b]',
+}
+
+\lstdefinelanguage{XML}{
+  morestring      = [b]",
+  moredelim       = [s][\bfseries\color{listing-keyword}]{<}{\ },
+  moredelim       = [s][\bfseries\color{listing-keyword}]{</}{>},
+  moredelim       = [l][\bfseries\color{listing-keyword}]{/>},
+  moredelim       = [l][\bfseries\color{listing-keyword}]{>},
+  morecomment     = [s]{<?}{?>},
+  morecomment     = [s]{<!--}{-->},
+  commentstyle    = \color{listing-comment},
+  stringstyle     = \color{listing-string},
+  identifierstyle = \color{listing-identifier}
+}
+$endif$
