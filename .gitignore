@@ -473,19 +473,19 @@ yarn-error.log*
 ###########################
 
 # #start Quarto
-/_book/
+_book/
 *_cache/
-/cache/
-/_extensions/
+cache/
+_extensions/
 *_files/
-/_*.local
-/_output/
+_*.local
+_output/
 .quarto/
-/_site/
+_site/
 
 # **Optional**
 # Depends on if you need others to reproduce your computational environment (https://quarto.org/docs/projects/code-execution.html#using-freeze)
-/_freeze/
+_freeze/
 
 #end
 
