@@ -360,6 +360,7 @@ sdist/
 *.settings
 *.sfd
 share/python-wheels/
+site_libs
 *.snap
 *.so
 *.soc
