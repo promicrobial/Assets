@@ -27,6 +27,7 @@ archive.*
 *.browserslist
 *.browserslistrc
 *.bsd
+*.bst
 *.bz2
 build/
 bower_components/
@@ -45,6 +46,7 @@ bower_components/
 *.cfg
 *.changes
 *.cjs
+*.cls
 *.closure-compiler
 *.cmd
 *.code-workspace
@@ -78,6 +80,7 @@ data/
 *.dmypy.json
 *.dmp
 *.dockerignore
+*.doc*
 dist/
 .directory
 downloads/
@@ -360,12 +363,13 @@ sdist/
 *.settings
 *.sfd
 share/python-wheels/
-site_libs
+site_libs/
 *.snap
 *.so
 *.soc
 *.sql
 *.sqlite
+*.spl
 *.scss
 *.styl
 *.sublime-*
