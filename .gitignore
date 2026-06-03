@@ -219,6 +219,7 @@ lerna-debug.log*
 *.m
 *.mak
 MANIFEST
+_manuscript/
 *.map
 *.md5
 md5sum*
@@ -382,6 +383,7 @@ share/python-wheels/
 *.tera
 *.test
 *.tex
+_tex/
 *.theme
 .tern-port
 tests/
