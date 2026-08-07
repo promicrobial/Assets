@@ -1,0 +1,21 @@
+#############################################################
+# Configuration and Environment Variables                   #
+#############################################################
+
+# parent directory (default: current directory)
+WORKDIR="./"
+
+THREADS=16
+
+#############################################################
+# Input and Output locations                                #
+#############################################################
+
+# input file location
+IN="data/input" 
+
+# location for output files
+OUT="results/card-rgi"
+
+# location for script logs
+LOGS=".logs/"

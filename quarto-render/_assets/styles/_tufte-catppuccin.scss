@@ -1,0 +1,95 @@
+// Integration layer that applies Catppuccin colors to Tufte elements
+// This file should be imported after both base files
+
+// Apply Catppuccin colors to Tufte elements
+body {
+    background-color: $body-bg;
+    color: $body-color;
+}
+
+// Heading colors with shadows
+h1, h2, h3, h4, h5, h6 {
+    text-shadow: -1px -1px 0 rgba($contrast-fg, .3);
+}
+
+h1 { color: $blue; }
+h2 { color: $mauve; }
+h3 { color: $green; }
+h4 { color: $orange; }
+h5 { color: $yellow; }
+h6 { color: $red; }
+
+// Typography enhancements
+strong { color: $teal; }
+em { color: $green; }
+mark { 
+    background-color: rgba($yellow, 0.3);
+    color: $text;
+}
+
+.newthought {
+    font-variant: small-caps;
+    font-size: 1.2em;
+    color: $mauve;
+}
+
+p.subtitle {
+    color: $subtext1;
+}
+
+.danger {
+    color: $red;
+}
+
+// Sidenotes and margin notes
+.sidenote,
+.marginnote {
+    color: $subtext0;
+}
+
+.sidenote-number:after,
+.sidenote:before {
+    color: $blue;
+}
+
+figcaption {
+    color: $subtext0;
+}
+
+// Blockquotes
+blockquote {
+    color: $subtext1;
+}
+
+// Links
+a:link, a:visited {
+    color: $link-color;
+    text-underline-offset: 0.1em;
+    text-decoration-thickness: 0.05em;
+}
+
+a:hover {
+    color: $sky;
+}
+
+// Code styling
+code, pre > code {
+    color: $subtext0;
+    background-color: $crust;
+}
+
+pre > code {
+    padding: 1rem;
+    border-radius: 0.25rem;
+}
+
+// Horizontal rules
+hr {
+    border-top-color: $surface1;
+}
+
+// Set CSS custom properties for optional modules
+:root {
+    --sidebar-section-color: #{$orange};
+    --sidebar-hover-bg: #{rgba($surface0, 0.5)};
+}

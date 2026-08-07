@@ -1,0 +1,240 @@
+// Tufte CSS configuration variables
+$tufte-font-stack: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif !default;
+$tufte-sans-font: "Gill Sans", "Gill Sans MT", Calibri, sans-serif !default;
+$tufte-mono-font: Consolas, "Liberation Mono", Menlo, Courier, monospace !default;
+
+$tufte-base-font-size: 15px !default;
+$tufte-body-width: 87.5% !default;
+$tufte-text-width: 55% !default;
+$tufte-margin-width: 50% !default;
+
+// Font configurations for Bootstrap integration
+$font-family-serif: $tufte-font-stack !default;
+$font-family-sans-serif: $tufte-sans-font !default;
+$font-family-monospace: $tufte-mono-font !default;
+$font-family-base: $font-family-serif !default;
+
+$font-size-root: $tufte-base-font-size !default;
+$font-size-base: 1.4rem !default;
+$line-height-base: 1.43 !default;
+
+$h1-font-size: 3.2rem !default;
+$h2-font-size: 2.2rem !default;
+$h3-font-size: 1.7rem !default;
+$h4-font-size: 1.5rem !default;
+$h5-font-size: 1.3rem !default;
+$h6-font-size: 1.1rem !default;
+
+// Core Tufte layout styles
+html {
+    font-size: $tufte-base-font-size;
+}
+
+body {
+    width: $tufte-body-width;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 12.5%;
+    font-family: $tufte-font-stack;
+    max-width: 1400px;
+    counter-reset: sidenote-counter;
+}
+
+// Content width constraints
+section > p,
+section > footer,
+section > table {
+    width: $tufte-text-width;
+}
+
+section > dl,
+section > ol,
+section > ul {
+    width: $tufte-margin-width;
+    -webkit-padding-start: 5%;
+}
+
+// Tufte-specific elements
+.sidenote,
+.marginnote {
+    float: right;
+    clear: right;
+    margin-right: -60%;
+    width: 50%;
+    margin-top: 0.3rem;
+    margin-bottom: 0;
+    font-size: 1.1rem;
+    line-height: 1.3;
+    vertical-align: baseline;
+    position: relative;
+}
+
+.sidenote-number {
+    counter-increment: sidenote-counter;
+}
+
+.sidenote-number:after,
+.sidenote:before {
+    font-family: $tufte-font-stack;
+    position: relative;
+    vertical-align: baseline;
+}
+
+.sidenote-number:after {
+    content: counter(sidenote-counter);
+    font-size: 1rem;
+    top: -0.5rem;
+    left: 0.1rem;
+}
+
+.sidenote:before {
+    content: counter(sidenote-counter) " ";
+    font-size: 1rem;
+    top: -0.5rem;
+}
+
+input.margin-toggle {
+    display: none;
+}
+
+label.sidenote-number {
+    display: inline-block;
+    max-height: 2rem;
+    cursor: pointer;
+}
+
+label.margin-toggle:not(.sidenote-number) {
+    display: none;
+}
+
+// Figures and images
+figure {
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    max-width: $tufte-text-width;
+    -webkit-margin-start: 0;
+    -webkit-margin-end: 0;
+    margin: 0 0 3em 0;
+}
+
+figcaption {
+    float: right;
+    clear: right;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    vertical-align: baseline;
+    position: relative;
+    max-width: 40%;
+}
+
+figure.fullwidth figcaption {
+    margin-right: 24%;
+}
+
+img {
+    max-width: 100%;
+}
+
+// Fullwidth elements
+div.fullwidth,
+table.fullwidth {
+    width: 100%;
+}
+
+.fullwidth {
+    max-width: 90%;
+    clear: both;
+}
+
+// Epigraphs
+div.epigraph {
+    margin: 5em 0;
+}
+
+div.epigraph > blockquote {
+    margin-top: 3em;
+    margin-bottom: 3em;
+}
+
+div.epigraph > blockquote,
+div.epigraph > blockquote > p {
+    font-style: italic;
+}
+
+div.epigraph > blockquote > footer {
+    font-style: normal;
+}
+
+div.epigraph > blockquote > footer > cite {
+    font-style: italic;
+}
+
+// Responsive design
+@media (max-width: 760px) {
+    body {
+        width: 84%;
+        padding-left: 8%;
+        padding-right: 8%;
+    }
+
+    section > p,
+    section > footer,
+    section > table {
+        width: 100%;
+    }
+
+    section > dl,
+    section > ol,
+    section > ul {
+        width: 90%;
+    }
+
+    figure {
+        max-width: 90%;
+    }
+
+    figcaption,
+    figure.fullwidth figcaption {
+        margin-right: 0%;
+        max-width: none;
+    }
+
+    label.margin-toggle:not(.sidenote-number) {
+        display: inline;
+    }
+
+    .sidenote,
+    .marginnote {
+        display: none;
+    }
+
+    .margin-toggle:checked + .sidenote,
+    .margin-toggle:checked + .marginnote {
+        display: block;
+        float: left;
+        left: 1rem;
+        clear: both;
+        width: 95%;
+        margin: 1rem 2.5%;
+        vertical-align: baseline;
+        position: relative;
+    }
+
+    label {
+        cursor: pointer;
+    }
+
+    div.table-wrapper,
+    table {
+        width: 85%;
+    }
+
+    img {
+        width: 100%;
+    }
+}

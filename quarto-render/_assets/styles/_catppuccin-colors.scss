@@ -1,0 +1,50 @@
+// _catppuccin-colors.scss
+
+// Base colors - declare these FIRST
+/* These are the main color variables from the Catppuccin "Frappe" theme palette */
+
+$text:    #c6d0f5 !default;  /* Light grayish-blue - main text color */
+$surface2: #626880 !default; /* Medium gray - for elevated surfaces */
+$surface1: #51576d !default; /* Darker gray - for slightly elevated surfaces */
+$surface0: #414559 !default; /* Even darker gray - for base elevated surfaces */
+$overlay0: #737994 !default; /* Gray overlay color for subtle backgrounds */
+$subtext0: #a5adce !default; /* Lighter gray - for secondary text */
+$subtext1: #b5bfe2 !default; /* Even lighter gray - for tertiary text */
+$mantle: #292c3c !default;   /* Very dark blue-gray - darker than base */
+$crust: #232634 !default;    /* Darkest color - for deepest backgrounds */
+$base:    #303446 !default;  /* Dark blue-gray - main background color */
+
+/* Accent colors - these provide visual interest and meaning */
+$blue:    #8CAAEE !default;  /* Soft blue - often used for links and primary actions */
+$mauve:  #ca9ee6 !default;   /* Light purple */
+$pink:    #f4b8e4 !default;  /* Soft pink */
+$red:     #e78284 !default;  /* Soft red - often used for errors/danger */
+$orange:  #ef9f76 !default;  /* Soft orange (labeled as "peach") */
+$yellow:  #e5c890 !default;  /* Soft yellow - often used for warnings */
+$green:   #a6d189 !default;  /* Soft green - often used for success states */
+$teal:    #81c8be !default;  /* Blue-green color */
+$sky:    #99D1DB !default;   /* Light blue */
+
+/* This function creates intermediate colors by mixing crust and subtext1 */
+@function body-mix($weight) {
+  @return mix($crust, $subtext1, $weight);
+/* $weight determines how much of $crust vs $subtext1 to use */
+  /* Higher weight = more crust (darker), lower weight = more subtext1 (lighter) */
+}
+
+/* Main page colors */
+$body-bg: #303446 !default;     /* Background color for the entire page */
+$body-color: #c6d0f5 !default;  /* Default text color for the page */
+$contrast-bg: #c6d0f5 !default; /* Light color used for contrast */
+$contrast-fg: #303446 !default; /* Dark color used for contrast */
+
+/* Custom lighten/darken functions that work with the theme's contrast colors */
+@function lighten($color, $percent) {
+  @return mix($contrast-bg, $color, $percent);
+/* Makes colors lighter by mixing with the light contrast color */
+}
+
+@function darken($color, $percent) {
+  @return mix($contrast-fg, $color, $percent);
+/* Makes colors darker by mixing with the dark contrast color */
+}
