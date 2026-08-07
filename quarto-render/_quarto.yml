@@ -19,14 +19,14 @@ book:
       chapters:
         - index.qmd
 
-    - part: "Part 1"
-      chapters:
-        -
-        -
+    # - part: "Part 1"
+    #   chapters:
+    #     -
+    #     -
 
-    - part: Appendix
-      chapters:
-        -
+    # - part: Appendix
+    #   chapters:
+    #     -
 
     - part: manuscript/references.qmd
     - part: end.qmd
