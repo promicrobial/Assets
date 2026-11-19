@@ -300,6 +300,8 @@ pids
 .pnpm-debug.log*
 *.pnm
 *.po
+*.posit
+*.positron
 *.pot
 poetry.lock
 *.prettierignore
